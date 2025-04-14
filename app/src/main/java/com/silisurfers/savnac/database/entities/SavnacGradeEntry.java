@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity(tableName = "grade_entries")
 public class SavnacGradeEntry {
@@ -22,9 +22,9 @@ public class SavnacGradeEntry {
     private String grade;
 
     @ColumnInfo(name = "entry_date")
-    private Date entryDate;
+    private LocalDateTime entryDate;
 
-    public SavnacGradeEntry(String courseName, String assignmentName, String grade, Date entryDate) {
+    public SavnacGradeEntry(String courseName, String assignmentName, String grade, LocalDateTime entryDate) {
         this.courseName = courseName;
         this.assignmentName = assignmentName;
         this.grade = grade;
@@ -64,11 +64,11 @@ public class SavnacGradeEntry {
         this.grade = grade;
     }
 
-    public Date getEntryDate() {
+    public LocalDateTime getEntryDate() {
         return entryDate;
     }
 
-    public void setEntryDate(Date entryDate) {
+    public void setEntryDate(LocalDateTime entryDate) {
         this.entryDate = entryDate;
     }
 }
