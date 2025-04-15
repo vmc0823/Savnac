@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 /***
  * Author: Wootark Kim
  * Date creation: 14 April 2024
- * Purpose of file: a JAVA class acting as an Entity file for Enrollment
+ * Purpose of file: a JAVA class acting as an Entity file for Enrollment.
  */
 
 @Entity(tableName = "enrollmentOptions")    // Setting a custom name for the data table
