@@ -1,4 +1,5 @@
 <resources>
+    <!-- Strings for Savnac Login and Signup Activities -->
     <string name="app_name">Savnac</string>
     <string name="savnac_login_title">Savnac\nLogin</string>
     <string name="savnac_signup_title">Savnac\nSignup</string>
@@ -8,4 +9,5 @@
     <string name="signup">Sign Up</string>
     <string name="are_you_creating_a_teacher_account">Are you creating a Teacher account?</string>
 
+    <!-- Add more strings below -->
 </resources>
