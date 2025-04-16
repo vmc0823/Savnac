@@ -17,4 +17,10 @@ public interface SavnacGradeEntryDao {
 
     @Query("SELECT * FROM grade_entries ORDER BY entry_date DESC")
     LiveData<List<SavnacGradeEntry>> getAllGradeEntries();
+
+    @Query("SELECT * FROM grade_entries WHERE student_id = :stid ORDER BY entry_date DESC")
+    LiveData<List<SavnacGradeEntry>> getForStudent(int stid);
+
+    @Query("SELECT * FROM grade_entries WHERE assignment_id = :asid")
+    LiveData<List<SavnacGradeEntry>> getForAssignment(int asid);
 }
