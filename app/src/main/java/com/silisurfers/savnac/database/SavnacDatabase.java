@@ -17,7 +17,8 @@ import com.silisurfers.savnac.database.typeConverters.DateConverter;
 
 //@author: vw
 
-@Database(entities = {SavnacGradeEntry.class, SavnacCourse.class, SavnacAssignment.class, SavnacEnrollment.class, SavnacUser.class}, version = 1, exportSchema = false)
+@Database(entities = {SavnacGradeEntry.class, SavnacCourse.class, SavnacAssignment.class,
+        SavnacEnrollment.class, SavnacUser.class}, version = 1, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class SavnacDatabase extends RoomDatabase {
 
@@ -29,10 +30,11 @@ public abstract class SavnacDatabase extends RoomDatabase {
 
     private static volatile SavnacDatabase INSTANCE;
 
+    //singleton
     public static SavnacDatabase getDatabase(final Context context) {
-        if (INSTANCE == null) {
+        if (INSTANCE == null) { //avoids unnecessary sync
             synchronized (SavnacDatabase.class) {
-                if (INSTANCE == null) {
+                if (INSTANCE == null) { //checks that one thread creates the db instance
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     SavnacDatabase.class, "Savnac")
                             .fallbackToDestructiveMigration()

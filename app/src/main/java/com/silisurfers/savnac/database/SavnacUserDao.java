@@ -9,6 +9,7 @@ import com.silisurfers.savnac.database.entities.SavnacUser;
 
 import java.util.List;
 
+//@author: vw
 @Dao
 public interface SavnacUserDao {
     @Insert void insert(SavnacUser user);
