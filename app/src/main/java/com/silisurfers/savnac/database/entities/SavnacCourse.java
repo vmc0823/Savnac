@@ -10,14 +10,14 @@ public class SavnacCourse {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "class_name")
-    private String className;
+    @ColumnInfo(name = "course_name")
+    private String courseName;
 
     @ColumnInfo(name = "teacher_id")
     private int teacherId;
 
     public SavnacCourse(String className, int teacherId) {
-        this.className = className;
+        this.courseName = className;
         this.teacherId = teacherId;
     }
 
@@ -31,11 +31,11 @@ public class SavnacCourse {
     }
 
     public String getClassName() {
-        return className;
+        return courseName;
     }
 
     public void setClassName(String className) {
-        this.className = className;
+        this.courseName = className;
     }
 
     public int getTeacherId() {

@@ -17,14 +17,16 @@ import com.silisurfers.savnac.database.typeConverters.DateConverter;
 public abstract class SavnacDatabase extends RoomDatabase {
 
     public abstract SavnacGradeEntryDao gradeEntryDao();
+
     //TODO: next fields (course, enrollment, users...) based on rest of daos
 
     private static volatile SavnacDatabase INSTANCE;
 
+    //singleton
     public static SavnacDatabase getDatabase(final Context context) {
-        if (INSTANCE == null) {
+        if (INSTANCE == null) { //avoids unnecessary syncronization
             synchronized (SavnacDatabase.class) {
-                if (INSTANCE == null) {
+                if (INSTANCE == null) { //second check checks that one thread creates the database instance
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     SavnacDatabase.class, "Savnac")
                             .fallbackToDestructiveMigration()
