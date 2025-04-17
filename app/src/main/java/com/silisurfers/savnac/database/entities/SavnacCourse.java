@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
+//@author: vw
 @Entity(tableName = "courses")
 public class SavnacCourse {
 
@@ -16,8 +18,8 @@ public class SavnacCourse {
     @ColumnInfo(name = "teacher_id")
     private int teacherId;
 
-    public SavnacCourse(String className, int teacherId) {
-        this.courseName = className;
+    public SavnacCourse(String courseName, int teacherId) {
+        this.courseName = courseName;
         this.teacherId = teacherId;
     }
 
@@ -30,12 +32,13 @@ public class SavnacCourse {
         this.id = id;
     }
 
-    public String getClassName() {
+    public String getCourseName() {
         return courseName;
     }
 
-    public void setClassName(String className) {
-        this.courseName = className;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+
     }
 
     public int getTeacherId() {
