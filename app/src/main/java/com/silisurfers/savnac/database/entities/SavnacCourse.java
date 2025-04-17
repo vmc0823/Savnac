@@ -38,6 +38,7 @@ public class SavnacCourse {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+
     }
 
     public int getTeacherId() {

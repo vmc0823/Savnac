@@ -28,6 +28,7 @@ public abstract class SavnacDatabase extends RoomDatabase {
     public abstract SavnacEnrollmentDao enrollmentDao();
     public abstract SavnacUserDao UserDao();
 
+
     private static volatile SavnacDatabase INSTANCE;
 
     //singleton
