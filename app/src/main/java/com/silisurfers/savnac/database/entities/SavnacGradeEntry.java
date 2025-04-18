@@ -5,6 +5,7 @@ import static androidx.room.ForeignKey.CASCADE;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
@@ -12,20 +13,27 @@ import java.time.LocalDateTime;
 //@author: vw
 
 //linking student+assignment
-@Entity(tableName = "grade_entries",
+@Entity(
+        tableName = "grade_entries",
         foreignKeys={
-        @ForeignKey(
+            @ForeignKey(
                 entity= SavnacUser.class,
                 parentColumns = "id",
                 childColumns = "student_id",
                 onDelete = CASCADE
-        ),
-        @ForeignKey(
+            ),
+            @ForeignKey(
                 entity= SavnacAssignment.class,
                 parentColumns = "id",
                 childColumns = "assignment_id",
-                onDelete = CASCADE)
-        })
+                onDelete = CASCADE
+            )
+        },
+        indices = {
+                @Index("student_id"),
+                @Index("assignment_id")
+        }
+)
 
 public class SavnacGradeEntry {
 
