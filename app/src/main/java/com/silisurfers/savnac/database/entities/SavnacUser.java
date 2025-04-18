@@ -2,11 +2,17 @@ package com.silisurfers.savnac.database.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 //@author: vw
 
-@Entity(tableName = "users")
+@Entity(
+        tableName = "users",
+        indices = {
+                @Index(value = "username", unique = true)
+        }
+)
 public class SavnacUser {
     @PrimaryKey(autoGenerate = true)
     private int id;
