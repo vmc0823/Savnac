@@ -5,16 +5,22 @@ import static androidx.room.ForeignKey.CASCADE;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
 //@author: vw
-@Entity(tableName = "courses",
-    foreignKeys=@ForeignKey(
-        entity = SavnacUser.class,
-        parentColumns = "id", childColumns = "teacher_id",
-        onDelete = CASCADE
-    )
+@Entity(
+       tableName = "courses",
+       foreignKeys= {
+               @ForeignKey(
+                       entity = SavnacUser.class,
+                       parentColumns = "id", childColumns = "teacher_id",
+                       onDelete = CASCADE)
+       },
+       indices = {
+        @Index("teacher_id") //speeds up joins on teacher_id for fast lookups
+        }
 )
 public class SavnacCourse {
 
