@@ -2,8 +2,10 @@ package com.silisurfers.savnac.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
 
@@ -14,6 +16,12 @@ public interface SavnacGradeEntryDao {
 
     @Insert
     void insert(SavnacGradeEntry gradeEntry);
+
+    @Update
+    void update(SavnacGradeEntry gradeEntry); //rows updated
+
+    @Delete
+    void delete(SavnacGradeEntry gradeEntry); //rows deleted
 
     @Query("SELECT * FROM grade_entries ORDER BY entry_date DESC")
     LiveData<List<SavnacGradeEntry>> getAllGradeEntries();
