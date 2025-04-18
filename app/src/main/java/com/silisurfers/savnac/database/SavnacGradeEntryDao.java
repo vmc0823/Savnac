@@ -11,6 +11,8 @@ import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
 
 import java.util.List;
 
+//@author: vw
+
 @Dao
 public interface SavnacGradeEntryDao {
 
