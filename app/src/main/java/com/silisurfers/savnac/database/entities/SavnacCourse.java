@@ -1,12 +1,21 @@
 package com.silisurfers.savnac.database.entities;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 
 //@author: vw
-@Entity(tableName = "courses")
+@Entity(tableName = "courses",
+    foreignKeys=@ForeignKey(
+        entity = SavnacUser.class,
+        parentColumns = "id", childColumns = "teacher_id",
+        onDelete = CASCADE
+    )
+)
 public class SavnacCourse {
 
     @PrimaryKey(autoGenerate = true)
