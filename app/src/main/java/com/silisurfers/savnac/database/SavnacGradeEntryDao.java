@@ -8,7 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
-import com.silisurfers.savnac.database.entities.SavnacGradeEntryWithCourse;
+import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 
 import java.util.List;
 
@@ -43,5 +43,5 @@ public interface SavnacGradeEntryDao {
         "INNER JOIN assignments a ON g.assignment_id = a.id\n"+
         "WHERE g.student_id = :userId AND a.course_id = :courseId\n"
     )
-    LiveData<List<SavnacGradeEntryWithCourse>> getUserGradesByCourseId(int userId, int courseId);
+    LiveData<List<SavnacAssignmentWithGrade>> getUserGradesByCourseId(int userId, int courseId);
 }

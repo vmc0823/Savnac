@@ -7,9 +7,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
+import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
+import com.silisurfers.savnac.viewHolder.GradesActivityRecyclerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GradesActivity extends AppCompatActivity {
-
+    private RecyclerView recyclerView;
+    private List<SavnacAssignmentWithGrade> grades;
+    private GradesActivityRecyclerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +32,19 @@ public class GradesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        recyclerView = findViewById(R.id.grades_recycler_view);
+
+        ///  just some dummy data for now
+        grades = new ArrayList<>();
+        grades.add(new SavnacAssignmentWithGrade("Assignment 1", 20, 20));
+        grades.add(new SavnacAssignmentWithGrade("Assignment 2", 20, 15));
+        grades.add(new SavnacAssignmentWithGrade("Assignment 3", 100, 95));
+
+        adapter = new GradesActivityRecyclerAdapter(grades);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
     }
 }

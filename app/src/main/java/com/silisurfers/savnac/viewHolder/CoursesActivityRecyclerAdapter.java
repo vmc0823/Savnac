@@ -23,9 +23,11 @@ public class CoursesActivityRecyclerAdapter extends RecyclerView.Adapter<Courses
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textTitle;
 
+
         public MyViewHolder(View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.course_link_text);
+
         }
     }
 
