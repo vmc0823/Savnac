@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/join_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Join"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="563dp" />
+
+    <TextView
+        android:id="@+id/List_of_Courses_to_Join_textView"
+        android:layout_width="189dp"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:text="Select course to join or leave"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="221dp" />
+
+    <TextView
+        android:id="@+id/Your_Current_Course_textView"
+        android:layout_width="187dp"
+        android:layout_height="39dp"
+        android:gravity="center"
+        android:text="Your current courses"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="47dp" />
+
+    <Button
+        android:id="@+id/leave_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leave"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="627dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="388dp"
+        android:layout_height="260dp"
+        tools:layout_editor_absoluteX="12dp"
+        tools:layout_editor_absoluteY="265dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="394dp"
+        android:layout_height="121dp"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="86dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
