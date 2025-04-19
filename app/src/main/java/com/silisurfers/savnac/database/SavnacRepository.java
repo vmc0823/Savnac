@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+//@author: vw
+
 public class SavnacRepository {
     private final SavnacDatabase db;
     private static SavnacRepository instance;
