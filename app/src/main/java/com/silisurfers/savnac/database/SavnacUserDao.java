@@ -22,6 +22,9 @@ public interface SavnacUserDao {
     @Delete
     void delete(SavnacUser user);
 
+    @Query("SELECT * FROM users LIMIT 1")
+    SavnacUser getFirstUserSync();
+
     @Query("SELECT * FROM users WHERE id = :id")
     LiveData<SavnacUser> getById(int id);
 

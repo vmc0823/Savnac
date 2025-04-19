@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Savnac"
         tools:targetApi="31">
+
         <activity
             android:name=".CoursesActivity"
             android:exported="true">
@@ -30,6 +31,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".CreateCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateAssignmentActivity"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>
