@@ -25,13 +25,13 @@ public abstract class SavnacDatabase extends RoomDatabase {
     public abstract SavnacGradeEntryDao gradeEntryDao();
     public abstract SavnacCourseDao courseDao();
     public abstract SavnacAssignmentDao assignmentDao();
-    public abstract SavnacEnrollmentDao enrollmentDao();
+    public abstract SavnacEnrollmentDao enrollmentDao(); // this line tells Room to produce a code that provides an implementation of the SavnacEnrollmentDao interface
     public abstract SavnacUserDao UserDao();
 
 
     private static volatile SavnacDatabase INSTANCE;
 
-    //singleton
+    //singleton pattern - what does it do? - it ensures that the Savnac database is only created once and is shared across the entire application
     public static SavnacDatabase getDatabase(final Context context) {
         if (INSTANCE == null) { //avoids unnecessary sync
             synchronized (SavnacDatabase.class) {
