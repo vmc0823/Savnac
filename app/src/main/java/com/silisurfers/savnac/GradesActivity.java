@@ -1,6 +1,10 @@
 package com.silisurfers.savnac;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
@@ -46,5 +51,14 @@ public class GradesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        MaterialToolbar toolbar = findViewById(R.id.grades_activity_toolbar);
+        toolbar.setNavigationOnClickListener((v) -> {
+            System.out.println("menu item click listener fired");
+            Intent intent  = new Intent(this, CoursesActivity.class);
+            startActivity(intent);
+        });
+
     }
+
+
 }
