@@ -13,6 +13,9 @@
     <string name="add_student">Add student</string>
     <string name="please_enter_to_confirm">Please enter to confirm</string>
     <string name="please_enter_to_admit_student_name_above">Please enter to admit student name above</string>
+    <string name="enter_assignment_name">Enter assignment name</string>
+    <string name="maximum_points">Maximum points</string>
+    <string name="press_enter_to_confirm">Press enter to confirm</string>
 
     <!-- Add more strings below -->
 </resources>
