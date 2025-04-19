@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.silisurfers.savnac.database.entities.SavnacAssignment;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 
@@ -25,6 +26,12 @@ public class SavnacRepository {
             instance = new SavnacRepository(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public void insertAssignment(SavnacAssignment assignment) {
+        writeExecutor.execute(() ->
+                db.savnacAssignmentDao().insert(assignment)
+        );
     }
 
     public SavnacUser getCurrentUserSync() {

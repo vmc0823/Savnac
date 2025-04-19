@@ -29,6 +29,8 @@
         <activity
             android:name=".CreateAssignmentActivity"
             android:exported="false" />
+
+
     </application>
 
 </manifest>
