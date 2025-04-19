@@ -17,27 +17,33 @@ import com.silisurfers.savnac.database.typeConverters.DateConverter;
 
 //@author: vw
 
-@Database(entities = {SavnacGradeEntry.class, SavnacCourse.class, SavnacAssignment.class,
-        SavnacEnrollment.class, SavnacUser.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        SavnacGradeEntry.class,
+        SavnacCourse.class,
+        SavnacAssignment.class,
+        SavnacEnrollment.class,
+        SavnacUser.class},
+        version = 1,
+        exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class SavnacDatabase extends RoomDatabase {
 
-    public abstract SavnacGradeEntryDao gradeEntryDao();
-    public abstract SavnacCourseDao courseDao();
-    public abstract SavnacAssignmentDao assignmentDao();
-    public abstract SavnacEnrollmentDao enrollmentDao();
-    public abstract SavnacUserDao UserDao();
-
-
-    private static volatile SavnacDatabase INSTANCE;
+    public abstract SavnacGradeEntryDao savnacGradeEntryDao();
+    public abstract SavnacCourseDao savnacCourseDao();
+    public abstract SavnacAssignmentDao savnacAssignmentDao();
+    public abstract SavnacEnrollmentDao savnacEnrollmentDao();
+    public abstract SavnacUserDao savnacUserDao();
 
     //singleton
-    public static SavnacDatabase getDatabase(final Context context) {
+    private static volatile SavnacDatabase INSTANCE;
+
+    //getInstance in the repository class
+    public static SavnacDatabase getInstance(Context context) {
         if (INSTANCE == null) { //avoids unnecessary sync
             synchronized (SavnacDatabase.class) {
                 if (INSTANCE == null) { //checks that one thread creates the db instance
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    SavnacDatabase.class, "Savnac")
+                                    SavnacDatabase.class, "savnac.db")
                             .fallbackToDestructiveMigration()
                             .build();
                 }
