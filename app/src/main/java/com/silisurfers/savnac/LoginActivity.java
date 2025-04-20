@@ -10,23 +10,35 @@ package com.silisurfers.savnac;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.silisurfers.savnac.database.SavnacDatabase;
-import com.silisurfers.savnac.database.SavnacUserDao;
+import com.silisurfers.savnac.database.SavnacRepository;
+import com.silisurfers.savnac.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
     // Private data -------------------------------------------------------------------------------
-    private SavnacUserDao userDAO;
+    private ActivityLoginBinding binding;
 
-    private static SavnacDatabase repository;
+    private SavnacRepository repository;
 
     // Class behaviors ----------------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: Finish onCreate method
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        repository = SavnacRepository.getInstance(getApplicationContext());
+
+        binding.loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // IMPLEMENT VERIFYUSER
+            }
+        });
     }
 
     private void verifyUser() {
