@@ -54,22 +54,22 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // TODO: Implement getUserByUserName method in repository
-        LiveData<SavnacUser> userObserver = repository.getUserByUserName(username);
-        userObserver.observe(this, user -> {
-            if (user != null) {
-                String password = binding.passwordLoginEditText.getText().toString();
-                if (password.equals(user.getPassword())) {
-                    // Load course homepage if username and password match
-                    Intent intent = new Intent(this, CoursesActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
-                    binding.passwordLoginEditText.setSelection(0);
-                }
-            } else {
-                Toast.makeText(this, String.format("%s is not a valid username.", username), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        LiveData<SavnacUser> userObserver = repository.getUserByUserName(username);
+//        userObserver.observe(this, user -> {
+//            if (user != null) {
+//                String password = binding.passwordLoginEditText.getText().toString();
+//                if (password.equals(user.getPassword())) {
+//                    // Load course homepage if username and password match
+//                    Intent intent = new Intent(this, CoursesActivity.class);
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
+//                    binding.passwordLoginEditText.setSelection(0);
+//                }
+//            } else {
+//                Toast.makeText(this, String.format("%s is not a valid username.", username), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     static Intent loginIntentFactory(Context context) {
