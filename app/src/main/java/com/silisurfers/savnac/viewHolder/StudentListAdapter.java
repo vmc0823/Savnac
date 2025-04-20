@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-//list of admitted student names
+//this class is the adapter of createCourseActivity (list of admitted student names)
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentViewHolder> {
 
     private final List<String> students;
