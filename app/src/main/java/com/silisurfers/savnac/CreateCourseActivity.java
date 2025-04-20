@@ -39,7 +39,7 @@ public class CreateCourseActivity extends AppCompatActivity {
 
         //initializing repo and curreent user
         repo = SavnacRepository.getInstance(getApplication());
-        currentUser = repo.getCurrentUserSync();
+        currentUser = repo.getCurrentUserSync().getValue();
 
         if(currentUser == null || !"teacher".equals(currentUser.getRole())) { //block non-teachers
             finish();
