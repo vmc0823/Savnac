@@ -17,4 +17,10 @@ public interface SavnacCourseDao {
 
     @Query("SELECT * FROM courses")
     LiveData<List<SavnacCourse>> getAllCourses();
+
+    @Query("SELECT * FROM courses WHERE teacher_id = :teacherId") //added by vw
+    LiveData<List<SavnacCourse>> getCoursesByTeacher(int teacherId);
+
+    @Query("DELETE FROM courses where id = :courseId") //added by vw
+    void deleteById(int courseId);
 }
