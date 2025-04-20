@@ -5,10 +5,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /***
- * Author: Wootark Kim
+ * Author: Wootark (Tom) Kim
  * Date creation: 14 April 2024
  * Purpose of file: a JAVA class acting as an Entity file for Enrollment.
  */
+
+    // Important note (SavnacEnrollment vs SavnacCourse):
+    // "SavnacEnrollment" is a table for a list of courses enrolled by the user
+    // "SavnacCourse" is a table for a list of available courses that the user can enroll in
 
 @Entity(tableName = "enrollmentOptions")    // Setting a custom name for the data table
 public class SavnacEnrollment {
