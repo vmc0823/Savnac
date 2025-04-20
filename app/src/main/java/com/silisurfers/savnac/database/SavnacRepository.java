@@ -5,7 +5,10 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.silisurfers.savnac.database.entities.SavnacAssignment;
+import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacEnrollment;
+import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.concurrent.Executors;
 
 //@author: vw
 
+//all DB ops go through here
 public class SavnacRepository {
     private final SavnacDatabase db;
     private static SavnacRepository instance;
@@ -30,23 +34,104 @@ public class SavnacRepository {
         return instance;
     }
 
-    public void insertAssignment(SavnacAssignment assignment) {
-        writeExecutor.execute(() ->
-                db.savnacAssignmentDao().insert(assignment)
-        );
-    }
-
-    public LiveData<SavnacUser> getCurrentUserSync() {
+    //USERS**********
+    //who is currently signed in?
+    public LiveData<SavnacUser> getCurrentUser() {
         return db.savnacUserDao().getFirstUserSync();
     }
 
-    public LiveData<List<SavnacCourse>> getAllCourses() {
-        return db.savnacCourseDao().getAllCourses();
+    //all users (for debugging)
+    public LiveData<List<SavnacUser>> getAllUsers() {
+        return db.savnacUserDao().getAll();
     }
 
+    //sign up or add a user
     public void insertUser(SavnacUser user) {
         writeExecutor.execute(() -> db.savnacUserDao().insert(user));
     }
 
-    // TODO: add more methods: insertCourse, getAssignmentsForCourse, insertAssignment, etc.
+    public void updateUser(SavnacUser user) {
+        writeExecutor.execute(() -> db.savnacUserDao().insert(user));
+    }
+
+    public void deleteUser(SavnacUser user) {
+        writeExecutor.execute(() -> db.savnacUserDao().delete(user));
+    }
+
+    //COURSES*******
+    //all courses in system
+    public LiveData<List<SavnacCourse>> getAllCourses() {
+        return db.savnacCourseDao().getAllCourses();
+    }
+
+    //courses taught by certain teacher
+    public LiveData<List<SavnacCourse>> getCourseByTeacher(int teacherId) {
+        return db.savnacCourseDao().getCoursesByTeacher(teacherId);
+    }
+
+    //create a new course
+    public void insertCourse(SavnacCourse course) {
+        writeExecutor.execute(() -> db.savnacCourseDao().insert(course));
+    }
+
+    //delete a course
+    public void deleteCourse(int courseId) {
+        writeExecutor.execute(() -> db.savnacCourseDao().deleteById(courseId));
+    }
+
+    //ENROLLMENTS*********
+
+    //raw enrollments for example options
+    public LiveData<List<SavnacEnrollment>> getAllEnrollments() {
+        return db.savnacEnrollmentDao().getAllEnrollmentOptions();
+    }
+
+    //create new enrollment (link student-course)
+    public void insertEnrollment(SavnacEnrollment enrollment) {
+        writeExecutor.execute(() -> db.savnacEnrollmentDao().insert(enrollment));
+    }
+
+    //single enrollment by PK
+    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
+        return db.savnacEnrollmentDao().getById(id);
+    }
+
+    //courseId column
+
+    //ASSIGNMENTS************
+    //all assignments in system
+    public LiveData<List<SavnacAssignment>> getAllAssignments() {
+        return db.savnacAssignmentDao().getAllAssignments();
+    }
+
+    //create new assignments
+    public void insertAssignment(SavnacAssignment assignment) {
+        writeExecutor.execute(() -> db.savnacAssignmentDao().insert(assignment));
+    }
+
+    //GRADES*********
+    //all grades entries, most recent 1st
+    public LiveData<List<SavnacGradeEntry>> getAllGradeEntries() {
+        return db.savnacGradeEntryDao().getAllGradeEntries();
+    }
+
+    public LiveData<List<SavnacGradeEntry>> getGradeForStudents(int studentId) {
+        return db.savnacGradeEntryDao().getForStudent(studentId);
+    }
+
+    public LiveData<List<SavnacGradeEntry>> getGradeForAssignment(int assignmentId) {
+        return db.savnacGradeEntryDao().getForAssignment(assignmentId);
+    }
+
+    public LiveData<List<SavnacAssignmentWithGrade>> getUserGradesByCourseId(int userId, int courseId) {
+        return db.savnacGradeEntryDao().getUserGradesByCourseId(userId, courseId);
+    }
+
+    public void insertGradeEntry(SavnacGradeEntry entry) {
+        writeExecutor.execute(() -> db.savnacGradeEntryDao().insert(entry));
+    }
+
+    public void updateGradeEntry(SavnacGradeEntry entry) {
+        writeExecutor.execute(() -> db.savnacGradeEntryDao().delete(entry));
+    }
 }

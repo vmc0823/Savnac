@@ -17,20 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacUser;
+import com.silisurfers.savnac.viewHolder.StudentListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //@author: vw
 
+//this class is an extension from course activity when teachers click on Create New Course
 public class CreateCourseActivity extends AppCompatActivity {
 
     private SavnacRepository repo;
     private SavnacUser currentUser;
-
     private RecyclerView recyclerViewStudents;
-
-    private RecyclerView.Adapter<RecyclerView.ViewHolder> adapter;
+    private StudentListAdapter adapter;
     private final List<String> admitted = new ArrayList<>();
 
     @Override
@@ -38,8 +38,8 @@ public class CreateCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //initializing repo and curreent user
-        repo = SavnacRepository.getInstance(getApplication());
-        currentUser = repo.getCurrentUserSync().getValue();
+        repo = SavnacRepository.getInstance(getApplicationContext());
+        currentUser = repo.getCurrentUser().getValue();
 
         if(currentUser == null || !"teacher".equals(currentUser.getRole())) { //block non-teachers
             finish();
@@ -58,64 +58,31 @@ public class CreateCourseActivity extends AppCompatActivity {
 
         //layout manager
         recyclerViewStudents.setLayoutManager(new LinearLayoutManager(this));
-
-        //recyclerView
-        adapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            @Override
-            public int getItemCount() {
-                return admitted.size();
-            }
-
-            @NonNull @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(
-                    @NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater
-                        .from(parent.getContext())
-                        .inflate(android.R.layout.simple_list_item_1,
-                                parent, false);
-                return new RecyclerView.ViewHolder(view) {};
-            }
-
-            @Override
-            public void onBindViewHolder(
-                    @NonNull RecyclerView.ViewHolder holder,
-                    int position) {
-                TextView textView = (TextView) holder.itemView;
-                textView.setText(admitted.get(position));
-                holder.itemView.setOnLongClickListener(view -> {
-                    admitted.remove(holder.getAdapterPosition());
-                    this.notifyItemRemoved(holder.getAdapterPosition());
-                    return true;
-                });
-            }
-        };
+        adapter = new StudentListAdapter(admitted);
         recyclerViewStudents.setAdapter(adapter);
 
        //add student button
-        buttonAddStudent.setOnClickListener(view -> {
+        buttonAddStudent.setOnClickListener(v -> {
             String name = editTextStudentName.getText().toString().trim();
             if (!TextUtils.isEmpty(name)) {
-                admitted.add(name);
-                adapter.notifyItemInserted(admitted.size() - 1);
+                adapter.addStudent(name);
                 editTextStudentName.getText().clear();
             }
         });
 
         //press enter to confirm course button
-        buttonConfirmCourse.setOnClickListener(view -> {
+        buttonConfirmCourse.setOnClickListener(v -> {
             String course = editTextCourseName.getText().toString().trim();
             if (TextUtils.isEmpty(course) || admitted.isEmpty()) {
             //TODO: show error to user
             return;
         }
         for (String studentName : admitted) {
-            SavnacUser user = new SavnacUser(
-                    studentName,
+            //Enrollment entity here instead
+            repo.insertUser(new SavnacUser(studentName,
                     "",
-                    "student"
-            );
-            repo.insertUser(user);
-        }
+                    "student"));
+            }
         finish();
         });
     }
