@@ -36,7 +36,7 @@ public class SavnacRepository {
         );
     }
 
-    public SavnacUser getCurrentUserSync() {
+    public LiveData<SavnacUser> getCurrentUserSync() {
         return db.savnacUserDao().getFirstUserSync();
     }
 

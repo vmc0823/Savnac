@@ -22,10 +22,11 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         repo = SavnacRepository.getInstance(getApplicationContext());
-        currentUser = repo.getCurrentUserSync();
+        currentUser = repo.getCurrentUserSync().getValue();
 
         //blocking students from editing
         if(currentUser == null
