@@ -18,14 +18,15 @@ public class CreateAssignmentActivity extends AppCompatActivity {
     private Button buttonConfirmAssignment;
     private SavnacRepository repo;
     private SavnacUser currentUser;
-    private long courseId;
+    private int courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         repo = SavnacRepository.getInstance(getApplicationContext());
-        currentUser = repo.getCurrentUserSync();
+        currentUser = repo.getCurrentUserSync().getValue();
 
         //blocking students from editing
         if(currentUser == null
@@ -39,7 +40,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         editTextMaxPoints = findViewById(R.id.editTextMaxPoints);
         buttonConfirmAssignment = findViewById(R.id.buttonConfirmAssignment);
 
-        courseId = getIntent().getLongExtra(EXTRA_COURSE_ID, -1);
+        courseId = getIntent().getIntExtra(EXTRA_COURSE_ID, -1);
         if(courseId < 0) {
             finish();
             return;
@@ -65,7 +66,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             //entity
             SavnacAssignment asgmnt = new SavnacAssignment();
             asgmnt.setCourseId(courseId);
-            asgmnt.setName(name);
+            asgmnt.setAssignmentName(name);
             asgmnt.setPoints(maxPoints);
 
             repo.insertAssignment(asgmnt);

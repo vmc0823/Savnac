@@ -1,6 +1,10 @@
 package com.silisurfers.savnac;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -22,6 +28,10 @@ public class CoursesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<SavnacCourse> courses;
     private CoursesActivityRecyclerAdapter adapter;
+    private SavnacRepository repo;
+    private SavnacUser currentUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +43,8 @@ public class CoursesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        repo = SavnacRepository.getInstance(getApplication());
+        currentUser = repo.getCurrentUserSync().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
 
         ///  just some dummy data for now
@@ -53,5 +64,18 @@ public class CoursesActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
+        Button createNewCourseButton = findViewById(R.id.create_a_course_button);
+        if(currentUser == null || !"teacher".equals(currentUser.getRole())) {
+            createNewCourseButton.setVisibility(View.GONE);
+        }
+
+
+        createNewCourseButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, CreateCourseActivity.class);
+            startActivity(intent);
+        });
+
+
     }
 }
