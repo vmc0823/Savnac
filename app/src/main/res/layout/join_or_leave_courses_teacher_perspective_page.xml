@@ -66,7 +66,13 @@
         app:layout_constraintTop_toBottomOf="@+id/List_of_Courses_to_Join_textView"
         tools:layout_editor_absoluteX="12dp" />
 
+    <!--
+    Removed the join and leave button because simply having the user click on the
+    course itself to enroll or leave is easier
+    -->
+
     <!-- The "Join" button -->
+    <!--
     <Button
         android:id="@+id/join_button"
         android:backgroundTint="@color/ValleyGreen"
@@ -77,8 +83,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AvailableCourses" />
+    -->
 
     <!-- The "Leave" button -->
+    <!--
     <Button
         android:id="@+id/leave_button"
         android:backgroundTint="@color/Tangerine"
@@ -89,8 +97,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/join_button" />
+    -->
 
     <!-- The image of our otter :) -->
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="257dp"
@@ -98,7 +108,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leave_button"
-        app:srcCompat="@drawable/otter" />
+        app:layout_constraintTop_toBottomOf="@id/AvailableCourses"
+        app:srcCompat="@drawable/otter"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
