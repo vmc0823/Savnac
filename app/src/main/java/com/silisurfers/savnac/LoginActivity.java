@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: Implement getUserByUserName method
+        // TODO: Implement getUserByUserName method in repository
         LiveData<SavnacUser> userObserver = repository.getUserByUserName(username);
         userObserver.observe(this, user -> {
             if (user != null) {
