@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.silisurfers.savnac.database.entities.SavnacAssignment;
 import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacEnrollment;
 import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 
@@ -65,7 +66,7 @@ public class SavnacRepository {
 
     //courses taught by certain teacher
     public LiveData<List<SavnacCourse>> getCourseByTeacher(int teacherId) {
-        return db.savnacCourseDao().getCoursesByTeacher(teacherId)
+        return db.savnacCourseDao().getCoursesByTeacher(teacherId);
     }
 
     //create a new course
@@ -80,7 +81,22 @@ public class SavnacRepository {
 
     //ENROLLMENTS*********
 
+    //raw enrollments for example options
+    public LiveData<List<SavnacEnrollment>> getAllEnrollments() {
+        return db.savnacEnrollmentDao().getAllEnrollmentOptions();
+    }
 
+    //create new enrollment (link student-course)
+    public void insertEnrollment(SavnacEnrollment enrollment) {
+        writeExecutor.execute(() -> db.savnacEnrollmentDao().insert(enrollment));
+    }
+
+    //single enrollment by PK
+    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
+        return db.savnacEnrollmentDao().getById(id);
+    }
+
+    //courseId column
 
     //ASSIGNMENTS************
     //all assignments in system
