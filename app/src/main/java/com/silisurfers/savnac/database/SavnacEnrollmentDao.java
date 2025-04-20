@@ -37,4 +37,7 @@ public interface SavnacEnrollmentDao {
     LiveData<List<SavnacEnrollment>> getAllEnrollmentOptions(); // Thus, this line does 2 things:
                                                                 // 1. Let's users observe the list of all rows/options (in this case - all course options).
                                                                 // 2. automatically updates the UI when the data changes.
+
+    @Query("SELECT * FROM enrollmentOptions WHERE id = :id") //added by vw, this query matches repo class (see repo class)
+    LiveData<SavnacEnrollment> getById(int id);
 }
