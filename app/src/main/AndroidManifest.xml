@@ -13,6 +13,12 @@
         android:theme="@style/Theme.Savnac"
         tools:targetApi="31">
 
+        <!-- added by Tom (19 April 2025, 7:46 pm)-->
+        <!-- adding "join_or_leave_courses_teacher_perspective_activity" to the manifest (so it can run this page)-->
+        <activity android:name=".joinOrLeaveCoursesTeacherPerspectiveActivity"
+            android:exported="true"
+        />
+
         <activity
             android:name=".GradesActivity"
             android:exported="true">

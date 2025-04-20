@@ -8,7 +8,7 @@ import com.silisurfers.savnac.database.entities.SavnacEnrollment;
 import java.util.List;
 
 /***
- * Author: Wootark Kim
+ * Author: Wootark (Tom) Kim
  * Date creation: 14 April 2024
  * Purpose of file: a JAVA class acting as an Entity file for Enrollment.
  *                  (which means this DAO tells Room how to insert a row into the enrollmentOptions table)
