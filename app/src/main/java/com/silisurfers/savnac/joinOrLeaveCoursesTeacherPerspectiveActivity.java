@@ -1,6 +1,7 @@
 package com.silisurfers.savnac;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,7 +58,9 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
         availableCoursesAdapter = new CoursesActivityRecyclerAdapter(availableCourses, course -> {
             // when clicked, remove from available and move to current
             availableCoursesAdapter.removeItem(course);
+            Log.d("checkpoint", "checkpoint reached: successfully removed course from 'availableCourses'");
             currentlyEnrolledCourseAdapter.addItem(course);
+            Log.d("checkpoint", "checkpoint reached: successfully added course to 'currentlyEnrolledCourse'");
         });
 
         availableCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));    // this means the list will scroll vertically like a classic list
