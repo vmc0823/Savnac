@@ -20,7 +20,7 @@ public class SavnacEnrollment {
     @PrimaryKey(autoGenerate = true)        // Autogenerate set to true so we do not have to manually
     private int id;                         // provide an id for each row. Room will take care of it.
 
-    @ColumnInfo(name = "class_options")     // Creating a column called "courseName."
+    @ColumnInfo(name = "class_options")     // Creating a column called "class_options."
     private String courseName;
 
     // [Constructor]================================================================================
