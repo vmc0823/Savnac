@@ -53,7 +53,14 @@ public class CoursesActivity extends AppCompatActivity {
         courses.add(new SavnacCourse("CST 338", 1));
         courses.add(new SavnacCourse("CST 363", 1));
 
-        adapter = new CoursesActivityRecyclerAdapter(courses);
+//        adapter = new CoursesActivityRecyclerAdapter(courses);
+
+        // added by Tom (19 April 2025)
+        adapter = new CoursesActivityRecyclerAdapter(courses, course ->{
+            // JAVA forces this 2nd parameter to exist but it doesn't do anything
+            // this is because the changes ive modified for the CoursesActivityRecyclerAdapter was meant for my
+            // joinOrLeaveCoursesTeacherPerspectiveActivity activity page (not this coursesActivity... yet)
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
