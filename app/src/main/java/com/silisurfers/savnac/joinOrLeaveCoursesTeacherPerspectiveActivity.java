@@ -43,15 +43,12 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
 // ==========================[EVERYTHING DOWN HERE IS FOR TESTING PURPOSE]=======================================================================================
         // dummy data
         availableCourses = new ArrayList<>();
-        availableCourses.add(new SavnacCourse("CST 300", 1));
-        availableCourses.add(new SavnacCourse("CST 338", 1));
-        availableCourses.add(new SavnacCourse("CST 363", 1));
-        availableCourses.add(new SavnacCourse("CST 101", 1));
-        availableCourses.add(new SavnacCourse("CST 102", 1));
-        availableCourses.add(new SavnacCourse("CST 103", 1));
+        availableCourses.add(new SavnacCourse("Computer Science", 1));
+        availableCourses.add(new SavnacCourse("Biology", 1));
+        availableCourses.add(new SavnacCourse("Physics", 1));
 
         currentlyEnrolledCourses = new ArrayList<>();
-        currentlyEnrolledCourses.add(new SavnacCourse("History 101", 1));
+        currentlyEnrolledCourses.add(new SavnacCourse("History", 1));
 
 
         // creating an adapter and giving it the list of course data

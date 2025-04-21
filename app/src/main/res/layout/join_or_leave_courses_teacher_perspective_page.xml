@@ -19,26 +19,40 @@
 
     <!-- TextView that says "Your current courses" -->
     <TextView
-        android:id="@+id/Your_Current_Course_textView"
-        android:background="@color/OceanBlue"
-        android:layout_marginTop="35dp"
+        android:id="@+id/joinOrLeaveDirectionTextView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Select courses to join or leave"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="17sp"
         android:textColor="@color/white"
-        android:text="@string/your_current_courses"
+        android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Your_Current_Course_textView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/OceanBlue"
+        android:gravity="center"
+        android:text="@string/your_current_courses"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/joinOrLeaveDirectionTextView" />
 
     <!-- RecyclerView that shows the current list of courses enrolled in -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Current_Course_RecyclerView"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="300dp"
         app:layout_constraintTop_toBottomOf="@+id/Your_Current_Course_textView"
         tools:layout_editor_absoluteX="9dp" />
 
@@ -53,7 +67,7 @@
         android:textStyle="bold"
         android:textSize="17sp"
         android:textColor="@color/white"
-        android:text="@string/select_course_to_join_or_leave"
+        android:text="@string/currently_available_courses"
         app:layout_constraintTop_toBottomOf="@+id/Current_Course_RecyclerView"
         tools:layout_editor_absoluteX="112dp" />
 
@@ -104,7 +118,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="257dp"
-        android:layout_height="94dp"
+        android:layout_height="75dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
