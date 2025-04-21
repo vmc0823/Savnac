@@ -32,8 +32,6 @@ public class SavnacCourse {
     @ColumnInfo(name = "course_name")
     private String courseName;
 
-
-
     @ColumnInfo(name = "teacher_id")
     private int teacherId;
 

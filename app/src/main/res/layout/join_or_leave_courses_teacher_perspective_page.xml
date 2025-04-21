@@ -54,7 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         app:layout_constraintTop_toBottomOf="@+id/Your_Current_Course_textView"
-        tools:layout_editor_absoluteX="9dp" />
+        tools:layout_editor_absoluteX="9dp"
+ />
 
     <!-- TextView that says "Select course to join or leave -->
     <TextView

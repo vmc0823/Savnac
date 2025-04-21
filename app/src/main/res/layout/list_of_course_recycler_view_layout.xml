@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
+
+
+    <!--
+    Author: Wootark (Tom) Kim
+    Date: 21 April 2024
+
+    Note: I realized we already have an "item_link.xml" file that takes care of the recycler
+          view row layout. Thus this file is no longer necessary. Will leave it for archive/history
+          purpose.
+
+    -->
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:id="@+id/CourseButton"
+    android:textColor="@color/white"
+    android:text="@string/name_of_course"
+    android:textSize="20sp"
+/>
+
+<!-- Resource used: https://www.youtube.com/watch?v=TAEbP_ccjsk&t=3s -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_below="@id/CourseButton"
+    android:background="@color/white"
+/>
+
+</RelativeLayout>
