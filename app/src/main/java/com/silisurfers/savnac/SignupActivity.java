@@ -10,15 +10,16 @@ package com.silisurfers.savnac;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.silisurfers.savnac.database.SavnacRepository;
-import com.silisurfers.savnac.databinding.ActivityLoginBinding;
+import com.silisurfers.savnac.databinding.ActivitySignupBinding;
 
 public class SignupActivity extends AppCompatActivity {
     // Private data -------------------------------------------------------------------------------
-    private ActivityLoginBinding binding;
+    private ActivitySignupBinding binding;
 
     private SavnacRepository repository;
 
@@ -26,7 +27,17 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: implement onCreate
+        binding = ActivitySignupBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        repository = SavnacRepository.getInstance(getApplicationContext());
+
+        binding.signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupUser();
+            }
+        });
     }
 
     private void setupUser() {
