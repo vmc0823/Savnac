@@ -2,7 +2,7 @@
  * Author: Brandon Evans
  * File: SignupActivity.java
  * Date: 4/15/2025
- * Description:
+ * Description: This class houses the login page functionality for Savnac.
  */
 
 package com.silisurfers.savnac;
