@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // TODO: Implement getUserByUserName method in repository
-        LiveData<SavnacUser> userObserver = repository.getUserByUserName(username);
+        LiveData<SavnacUser> userObserver = repository.getUserByUsername(username);
         userObserver.observe(this, user -> {
             if (user != null) {
                 String password = binding.passwordLoginEditText.getText().toString();
