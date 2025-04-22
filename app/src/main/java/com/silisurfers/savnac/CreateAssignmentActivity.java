@@ -26,7 +26,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         repo = SavnacRepository.getInstance(getApplicationContext());
-        currentUser = repo.getCurrentUserSync().getValue();
+        currentUser = repo.getCurrentUser().getValue();
 
         //blocking students from editing
         if(currentUser == null

@@ -51,7 +51,11 @@ public class SavnacRepository {
     }
 
     public void updateUser(SavnacUser user) {
-        writeExecutor.execute(() -> db.savnacUserDao().insert(user));
+        writeExecutor.execute(() -> db.savnacUserDao().update(user));
+    }
+
+    public LiveData<SavnacUser> getUserByUsername(String username) {
+        return db.savnacUserDao().getByUsername(username);
     }
 
     public void deleteUser(SavnacUser user) {
@@ -70,9 +74,14 @@ public class SavnacRepository {
     }
 
     //create a new course
-    public void insertCourse(SavnacCourse course) {
-        writeExecutor.execute(() -> db.savnacCourseDao().insert(course));
+    public long insertCourse(SavnacCourse course) {
+        long[] courseId = new long[1];
+        writeExecutor.execute(() -> {
+            courseId[0] = db.savnacCourseDao().insert(course);
+        });
+        return courseId[0];
     }
+
 
     //delete a course
     public void deleteCourse(int courseId) {

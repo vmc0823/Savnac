@@ -44,7 +44,7 @@ public class CoursesActivity extends AppCompatActivity {
             return insets;
         });
         repo = SavnacRepository.getInstance(getApplication());
-        currentUser = repo.getCurrentUserSync().getValue();
+        currentUser = repo.getCurrentUser().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
 
         ///  just some dummy data for now
