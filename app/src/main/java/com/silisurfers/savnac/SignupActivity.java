@@ -46,6 +46,14 @@ public class SignupActivity extends AppCompatActivity {
     private void setupUser() {
         String username = binding.emailSignupEditText.getText().toString();
         String password = binding.passwordSignupEditText.getText().toString();
+        String role;
+
+        // If the teacher checkbox is checked then the account's role is Teacher instead of Student.
+        if (binding.isTeacherCheckBox.isChecked()) {
+            role = "Teacher";
+        } else {
+            role = "Student";
+        }
 
         if (username.isEmpty()) {
             Toast.makeText(this, "Username may not be blank.", Toast.LENGTH_SHORT).show();
@@ -57,13 +65,23 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
+        // TODO: Valentina needs to update SavnacRepository so it doesn't crash.
+        // TODO: If it still crashes then I suppose I will need to make changes.
         // Check if a user with this username already exists in the database.
         LiveData<SavnacUser> userObserver = repository.getUserByUsername(username);
         userObserver.observe(this, user -> {
             if (user != null) {
-                Toast.makeText(this, String.format("A account with the username %s already exists!", username), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.format("An account with the username %s already exists.", username), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, String.format("%s is not a valid username.", username), Toast.LENGTH_SHORT).show();
+                // This call should create the new user with the given signup details.
+                SavnacUser newUser = new SavnacUser(username, password, role);
+                repository.insertUser(newUser);
+
+                // TODO: Should probably add login code but will do that once repo is fixed
+
+                // Load course homepage after signing the user up then logging the user in.
+                Intent intent = new Intent(this, CoursesActivity.class);
+                startActivity(intent);
             }
         });
     }
