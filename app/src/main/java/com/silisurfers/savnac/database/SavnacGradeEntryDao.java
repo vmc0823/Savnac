@@ -5,6 +5,8 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
@@ -35,13 +37,18 @@ public interface SavnacGradeEntryDao {
     @Query("SELECT * FROM grade_entries WHERE assignment_id = :asid")
     LiveData<List<SavnacGradeEntry>> getForAssignment(int asid);
 
-    @Query(
-        "SELECT "+
-            "g.*,\n"+
-            "a.*\n" +
-        "FROM grade_entries g\n"+
-        "INNER JOIN assignments a ON g.assignment_id = a.id\n"+
-        "WHERE g.student_id = :userId AND a.course_id = :courseId\n"
+    @RewriteQueriesToDropUnusedColumns
+    @Transaction
+    @Query("SELECT assignments.assignment_name, assignments.points, grade_entries.grade " +
+            "FROM assignments " +
+            "INNER JOIN grade_entries ON assignments.id = grade_entries.assignment_id " +
+            "WHERE grade_entries.student_id = :userId AND assignments.course_id = :courseId"
+//        "SELECT "+
+//            "g.*,\n"+
+//            "a.*\n" +
+//        "FROM grade_entries g\n"+
+//        "INNER JOIN assignments a ON g.assignment_id = a.id\n"+
+//        "WHERE g.student_id = :userId AND a.course_id = :courseId\n"
     )
     LiveData<List<SavnacAssignmentWithGrade>> getUserGradesByCourseId(int userId, int courseId);
 }

@@ -118,6 +118,10 @@ public class SavnacRepository {
         writeExecutor.execute(() -> db.savnacAssignmentDao().insert(assignment));
     }
 
+    public LiveData<List<SavnacAssignmentWithGrade>> getAllGradesWithAssignments() {
+        return db.savnacAssignmentWithGradeDao().getAllGradesWithAssignments();
+    } //CALL THIS IN GRADESACTIVITY
+
     //GRADES*********
     //all grades entries, most recent 1st
     public LiveData<List<SavnacGradeEntry>> getAllGradeEntries() {
