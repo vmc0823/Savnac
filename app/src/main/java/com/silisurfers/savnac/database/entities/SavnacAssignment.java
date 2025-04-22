@@ -25,20 +25,21 @@ public class SavnacAssignment {
     @ColumnInfo(name="course_id")
     private int courseId;
 
+    @ColumnInfo(name = "assignment_name")
     private String assignmentName;
 
+    @ColumnInfo(name = "points")
     private int points;
 
-    @Ignore
     public SavnacAssignment(String assignmentName, int courseId, int points){
         this.assignmentName = assignmentName;
         this.courseId = courseId;
         this.points = points;
     }
 
-    public SavnacAssignment(){
-
-    }
+//    public SavnacAssignment(){
+//
+//    }
 
     public int getId() {
         return id;

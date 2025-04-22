@@ -2,8 +2,10 @@ package com.silisurfers.savnac.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 
@@ -13,14 +15,23 @@ import java.util.List;
 public interface SavnacCourseDao {
 
     @Insert
-    void insert(SavnacCourse course);
+    long insert(SavnacCourse course);
 
-    @Query("SELECT * FROM courses")
+    @Update
+    void update(SavnacCourse course);
+
+    @Delete
+    void delete(SavnacCourse course);
+
+    @Query("SELECT * FROM courses") //read
     LiveData<List<SavnacCourse>> getAllCourses();
 
-    @Query("SELECT * FROM courses WHERE teacher_id = :teacherId") //added by vw
+    @Query("SELECT * FROM courses WHERE teacher_id = :teacherId") //read
     LiveData<List<SavnacCourse>> getCoursesByTeacher(int teacherId);
 
-    @Query("DELETE FROM courses where id = :courseId") //added by vw
+    @Query("DELETE FROM courses where id = :courseId") //delete
     void deleteById(int courseId);
+
+    @Query("SELECT * FROM courses WHERE id = :courseId") //read
+    LiveData<SavnacCourse> getCourseById(int courseId);
 }
