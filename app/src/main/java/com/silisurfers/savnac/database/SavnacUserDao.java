@@ -31,6 +31,9 @@ public interface SavnacUserDao {
     @Query("SELECT * FROM users WHERE username = :usn AND password = :pwd LIMIT 1")
     LiveData<SavnacUser> login(String usn, String pwd);
 
+    @Query("SELECT * FROM users WHERE username = :username LIMIT 1")
+    LiveData<SavnacUser> getByUsername(String username);
+
     @Query("SELECT * from users")
     LiveData<List<SavnacUser>> getAll();
 }
