@@ -47,12 +47,16 @@ public class SavnacGradeEntry {
     private int studentId;
 
     @ColumnInfo(name = "grade")
-    private String grade;
+    private int grade;
 
     @ColumnInfo(name = "entry_date")
     private LocalDateTime entryDate;
 
-    public SavnacGradeEntry(int studentId, int assignmentId, String grade, LocalDateTime entryDate) {
+    public SavnacGradeEntry(){
+
+    }
+
+    public SavnacGradeEntry(int studentId, int assignmentId, int grade, LocalDateTime entryDate) {
         this.studentId = studentId;
         this.assignmentId = assignmentId;
         this.grade = grade;
@@ -84,11 +88,11 @@ public class SavnacGradeEntry {
         this.assignmentId = assignmentId;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 

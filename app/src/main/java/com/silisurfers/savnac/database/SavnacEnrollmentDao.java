@@ -8,7 +8,7 @@ import com.silisurfers.savnac.database.entities.SavnacEnrollment;
 import java.util.List;
 
 /***
- * Author: Wootark Kim
+ * Author: Wootark (Tom) Kim
  * Date creation: 14 April 2024
  * Purpose of file: a JAVA class acting as an Entity file for Enrollment.
  *                  (which means this DAO tells Room how to insert a row into the enrollmentOptions table)
@@ -37,4 +37,7 @@ public interface SavnacEnrollmentDao {
     LiveData<List<SavnacEnrollment>> getAllEnrollmentOptions(); // Thus, this line does 2 things:
                                                                 // 1. Let's users observe the list of all rows/options (in this case - all course options).
                                                                 // 2. automatically updates the UI when the data changes.
+
+    @Query("SELECT * FROM enrollmentOptions WHERE id = :id") //added by vw, this query matches repo class (see repo class)
+    LiveData<SavnacEnrollment> getById(int id);
 }
