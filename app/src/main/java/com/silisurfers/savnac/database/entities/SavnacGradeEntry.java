@@ -52,9 +52,6 @@ public class SavnacGradeEntry {
     @ColumnInfo(name = "entry_date")
     private LocalDateTime entryDate;
 
-//    public SavnacGradeEntry(){
-//
-//    }
 
     public SavnacGradeEntry(int studentId, int assignmentId, int grade, LocalDateTime entryDate) {
         this.studentId = studentId;

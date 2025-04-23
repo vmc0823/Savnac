@@ -15,11 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.silisurfers.savnac.database.entities.SavnacAssignment;
 import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 import com.silisurfers.savnac.viewHolder.GradesActivityRecyclerAdapter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +43,25 @@ public class GradesActivity extends AppCompatActivity {
         });
 
         recyclerView = findViewById(R.id.grades_recycler_view);
+        SavnacUser dummyUser = new SavnacUser("dummyStudent", "dummyPassword", "student");
+        SavnacUser dummyTeacher = new SavnacUser("dummyTeacher", "dummyPassword", "teacher");
+        SavnacCourse dummyCourse = new SavnacCourse("dummyCourse", dummyTeacher.getId());
+        SavnacAssignment dummyAssignment1 = new SavnacAssignment("dummyAssignment1", dummyCourse.getId(), 20);
+        SavnacAssignment dummyAssignment2 = new SavnacAssignment("dummyAssignment2", dummyCourse.getId(), 20);
+        SavnacAssignment dummyAssignment3 = new SavnacAssignment("dummyAssignment3", dummyCourse.getId(), 100);
+        SavnacGradeEntry dummyAssignmentGrade1 = new SavnacGradeEntry(dummyUser.getId(),dummyAssignment1.getId(),20, LocalDateTime.now());
+        SavnacGradeEntry dummyAssignmentGrade2 = new SavnacGradeEntry(dummyUser.getId(),dummyAssignment2.getId(),15, LocalDateTime.now());
+        SavnacGradeEntry dummyAssignmentGrade3 = new SavnacGradeEntry(dummyUser.getId(),dummyAssignment2.getId(),95, LocalDateTime.now());
+        SavnacAssignmentWithGrade dummyAssignmentWithGrade1 = new SavnacAssignmentWithGrade(dummyAssignmentGrade1,dummyAssignment1);
+        SavnacAssignmentWithGrade dummyAssignmentWithGrade2 = new SavnacAssignmentWithGrade(dummyAssignmentGrade2,dummyAssignment2);
+        SavnacAssignmentWithGrade dummyAssignmentWithGrade3 = new SavnacAssignmentWithGrade(dummyAssignmentGrade3,dummyAssignment3);
+
 
         ///  just some dummy data for now
         grades = new ArrayList<>();
-        grades.add(new SavnacAssignmentWithGrade("Assignment 1", 20, 20));
-        grades.add(new SavnacAssignmentWithGrade("Assignment 2", 20, 15));
-        grades.add(new SavnacAssignmentWithGrade("Assignment 3", 100, 95));
+        grades.add(dummyAssignmentWithGrade1);
+        grades.add(dummyAssignmentWithGrade2);
+        grades.add(dummyAssignmentWithGrade3);
 
         adapter = new GradesActivityRecyclerAdapter(grades);
 
