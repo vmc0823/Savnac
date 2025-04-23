@@ -34,4 +34,7 @@ public interface SavnacCourseDao {
 
     @Query("SELECT * FROM courses WHERE id = :courseId") //read
     LiveData<SavnacCourse> getCourseById(int courseId);
+
+    @Query("SELECT * FROM courses WHERE id = :courseId") //read
+    SavnacCourse getCourseByIdSync(int courseId);
 }

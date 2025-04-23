@@ -14,7 +14,7 @@ import java.util.List;
 //@author: vw
 @Dao
 public interface SavnacUserDao {
-    @Insert void insert(SavnacUser user);
+    @Insert long insert(SavnacUser user);
 
     @Update
     void update(SavnacUser user);
@@ -25,8 +25,11 @@ public interface SavnacUserDao {
     @Query("SELECT * FROM users LIMIT 1")
     LiveData<SavnacUser> getFirstUserSync();
 
-    @Query("SELECT * FROM users WHERE id = :id")
+    @Query("SELECT * FROM users WHERE users.id = :id")
     LiveData<SavnacUser> getById(int id);
+
+    @Query("SELECT * FROM users WHERE users.id = :id")
+    SavnacUser getByIdSync(int id);
 
     @Query("SELECT * FROM users WHERE username = :usn AND password = :pwd LIMIT 1")
     LiveData<SavnacUser> login(String usn, String pwd);

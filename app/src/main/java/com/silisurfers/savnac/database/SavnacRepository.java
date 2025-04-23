@@ -1,6 +1,7 @@
 package com.silisurfers.savnac.database;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,8 +13,10 @@ import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 //@author: vw
 
@@ -50,6 +53,15 @@ public class SavnacRepository {
         writeExecutor.execute(() -> db.savnacUserDao().insert(user));
     }
 
+    public CompletableFuture<SavnacUser> insertAndReturnUser(SavnacUser user){
+        return CompletableFuture.supplyAsync(()-> {
+            long id = db.savnacUserDao().insert(user);
+
+            return db.savnacUserDao().getByIdSync((int) id);
+
+        }, writeExecutor);
+    }
+
     public void updateUser(SavnacUser user) {
         writeExecutor.execute(() -> db.savnacUserDao().update(user));
     }
@@ -80,6 +92,13 @@ public class SavnacRepository {
             courseId[0] = db.savnacCourseDao().insert(course);
         });
         return courseId[0];
+    }
+
+    public CompletableFuture<SavnacCourse> insertAndReturnCourse(SavnacCourse course){
+        return CompletableFuture.supplyAsync(()-> {
+            long id = db.savnacCourseDao().insert(course);
+            return db.savnacCourseDao().getCourseByIdSync((int) id);
+        }, writeExecutor);
     }
 
 
@@ -118,6 +137,13 @@ public class SavnacRepository {
         writeExecutor.execute(() -> db.savnacAssignmentDao().insert(assignment));
     }
 
+    public CompletableFuture<SavnacAssignment> insertAndReturnAssignment(SavnacAssignment assignment){
+        return CompletableFuture.supplyAsync(()-> {
+            long id = db.savnacAssignmentDao().insert(assignment);
+            return db.savnacAssignmentDao().getAssignmentByIdSync( (int) id);
+        }, writeExecutor);
+    }
+
     public LiveData<List<SavnacAssignmentWithGrade>> getAllGradesWithAssignments() {
         return db.savnacAssignmentWithGradeDao().getAllGradesWithAssignments();
     } //CALL THIS IN GRADESACTIVITY
@@ -142,6 +168,13 @@ public class SavnacRepository {
 
     public void insertGradeEntry(SavnacGradeEntry entry) {
         writeExecutor.execute(() -> db.savnacGradeEntryDao().insert(entry));
+    }
+
+    public CompletableFuture<SavnacGradeEntry> insertAndReturnGradeEntry(SavnacGradeEntry gradeEntry){
+        return CompletableFuture.supplyAsync(()-> {
+            long id = db.savnacGradeEntryDao().insert(gradeEntry);
+            return db.savnacGradeEntryDao().getGradeEntryByIdSync( (int) id);
+        }, writeExecutor);
     }
 
     public void updateGradeEntry(SavnacGradeEntry entry) {
