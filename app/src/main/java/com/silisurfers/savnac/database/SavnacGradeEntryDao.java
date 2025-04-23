@@ -39,16 +39,15 @@ public interface SavnacGradeEntryDao {
 
     @RewriteQueriesToDropUnusedColumns
     @Transaction
-    @Query("SELECT assignments.assignment_name, assignments.points, grade_entries.grade " +
-            "FROM assignments " +
-            "INNER JOIN grade_entries ON assignments.id = grade_entries.assignment_id " +
+    @Query("SELECT assignments.*, grade_entries.*  " +
+            "FROM grade_entries " +
+            "INNER JOIN assignments ON grade_entries.assignment_id = assignments.id " +
             "WHERE grade_entries.student_id = :userId AND assignments.course_id = :courseId"
-//        "SELECT "+
-//            "g.*,\n"+
-//            "a.*\n" +
-//        "FROM grade_entries g\n"+
-//        "INNER JOIN assignments a ON g.assignment_id = a.id\n"+
-//        "WHERE g.student_id = :userId AND a.course_id = :courseId\n"
+//            michael: this query was throwing errors indicating necessary assignment fields were not included
+//    @Query("SELECT assignments.assignment_name, assignments.points, grade_entries.grade " +
+//            "FROM assignments " +
+//            "INNER JOIN grade_entries ON assignments.id = grade_entries.assignment_id " +
+//            "WHERE grade_entries.student_id = :userId AND assignments.course_id = :courseId"
     )
     LiveData<List<SavnacAssignmentWithGrade>> getUserGradesByCourseId(int userId, int courseId);
 }
