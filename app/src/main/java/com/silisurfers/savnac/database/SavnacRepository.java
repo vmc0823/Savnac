@@ -85,6 +85,10 @@ public class SavnacRepository {
         return db.savnacCourseDao().getCoursesByTeacher(teacherId);
     }
 
+    public void updateCourse(SavnacCourse course) {
+        writeExecutor.execute(() -> db.savnacCourseDao().update(course));
+    }
+
     //create a new course
     public long insertCourse(SavnacCourse course) {
         long[] courseId = new long[1];

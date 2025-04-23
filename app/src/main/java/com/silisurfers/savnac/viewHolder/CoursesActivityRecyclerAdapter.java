@@ -97,4 +97,10 @@ public class CoursesActivityRecyclerAdapter extends RecyclerView.Adapter<Courses
             notifyItemRemoved(index);
         }
     }
+
+    public void updateData(List<SavnacCourse> newList) {
+        itemList.clear();
+        itemList.addAll(newList);
+        notifyDataSetChanged();
+    }
 }
