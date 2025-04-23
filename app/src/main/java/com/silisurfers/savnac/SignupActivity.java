@@ -2,7 +2,7 @@
  * Author: Brandon Evans
  * File: SignupActivity.java
  * Date: 4/22/2025
- * Description: This class houses the login page functionality for Savnac.
+ * Description: This class houses the signup page functionality for Savnac.
  */
 
 package com.silisurfers.savnac;
@@ -65,8 +65,6 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        // TODO: Valentina needs to update SavnacRepository so it doesn't crash.
-        // TODO: If it still crashes then I suppose I will need to make changes.
         // Check if a user with this username already exists in the database.
         LiveData<SavnacUser> userObserver = repository.getUserByUsername(username);
         userObserver.observe(this, user -> {
