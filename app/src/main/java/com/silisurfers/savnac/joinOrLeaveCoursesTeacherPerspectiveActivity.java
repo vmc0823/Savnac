@@ -16,6 +16,10 @@ import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Author: Wootark (Tom) Kim
+ */
+
 public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActivity {
 
     // chose recyclerView since I want a scrollable list of courses that can be clickable

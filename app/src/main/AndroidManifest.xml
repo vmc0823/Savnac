@@ -74,6 +74,10 @@
             android:name=".CreateAssignmentActivity"
             android:exported="true" />
 
+        <!-- added by Tom (23 April 2025, 9:44 pm) -->
+        <activity android:name=".ShowListOfActiveAssignmentsActivity"
+            android:exported="true"/>
+
     </application>
 
 </manifest>
