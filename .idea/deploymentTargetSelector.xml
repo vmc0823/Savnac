@@ -13,19 +13,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity (1)">
+      <SelectionState runConfigName="CoursesActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity (2)">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity (3)">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity (4)">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity (5)">
+      <SelectionState runConfigName="joinOrLeaveCoursesTeacherPerspectiveActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

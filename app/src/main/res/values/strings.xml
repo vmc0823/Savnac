@@ -17,10 +17,13 @@
     <string name="maximum_points">Maximum points</string>
     <string name="press_enter_to_confirm">Press enter to confirm</string>
     <string name="your_current_courses">Your current courses</string>
-    <string name="select_course_to_join_or_leave">Select course to join or leave</string>
     <string name="join">Join</string>
     <string name="leave">Leave</string>
     <string name="signup_page">Signup Page</string>
+    <string name="currently_available_courses">Currently available courses</string>
+    <string name="name_of_course">Name of course</string>
+    <string name="new_click_here">New? Click here</string>
+    <string name="login_page">Login Page</string>
 
     <!-- Add more strings below -->
 </resources>

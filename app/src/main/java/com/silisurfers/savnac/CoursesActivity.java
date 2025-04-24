@@ -30,6 +30,8 @@ public class CoursesActivity extends AppCompatActivity {
     private CoursesActivityRecyclerAdapter adapter;
     private SavnacRepository repo;
     private SavnacUser currentUser;
+    private Button createNewCourseButton;
+    private Button joinCourseButton;
 
 
 
@@ -43,32 +45,74 @@ public class CoursesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        repo = SavnacRepository.getInstance(getApplication());
-        currentUser = repo.getCurrentUserSync().getValue();
+
+//        currentUser = repo.getCurrentUser().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
+        createNewCourseButton = findViewById(R.id.create_a_course_button);
+        joinCourseButton = findViewById(R.id.join_a_course_button);
 
         ///  just some dummy data for now
-        courses = new ArrayList<>();
-        courses.add(new SavnacCourse("CST 300", 1));
-        courses.add(new SavnacCourse("CST 338", 1));
-        courses.add(new SavnacCourse("CST 363", 1));
+//        courses = new ArrayList<>();
+//        courses.add(new SavnacCourse("CST 300", 1));
+//        courses.add(new SavnacCourse("CST 338", 1));
+//        courses.add(new SavnacCourse("CST 363", 1));
 
-        adapter = new CoursesActivityRecyclerAdapter(courses);
+//        adapter = new CoursesActivityRecyclerAdapter(courses);
+
+        // added by Tom (19 April 2025)
+        adapter = new CoursesActivityRecyclerAdapter(new ArrayList<>(), course -> {
+            // JAVA forces this 2nd parameter to exist but it doesn't do anything
+            // this is because the changes ive modified for the CoursesActivityRecyclerAdapter was meant for my
+            // joinOrLeaveCoursesTeacherPerspectiveActivity activity page (not this coursesActivity... yet)
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        Button createNewCourseButton = findViewById(R.id.create_a_course_button);
-        if(currentUser == null || !"teacher".equals(currentUser.getRole())) {
-            createNewCourseButton.setVisibility(View.GONE);
-        }
+        //button navigation
+        createNewCourseButton.setOnClickListener(v ->
+                startActivity(new Intent(this, CreateCourseActivity.class)));
+        joinCourseButton.setOnClickListener(v ->
+                startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
+
+        //LiveData sync
+        repo = SavnacRepository.getInstance(getApplicationContext());
+        repo.getCurrentUser().observe(this, user -> {
+            boolean isTeacher = (user != null && "teacher".equals(user.getRole())); //teachers see both create new course and join a course,
+            // plus only their own courses and students see only join a course, plus every course in the system
 
 
-        createNewCourseButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, CreateCourseActivity.class);
-            startActivity(intent);
+            // only teachers can create
+            createNewCourseButton.setVisibility(isTeacher
+                    ? View.VISIBLE
+                    : View.GONE);
+
+            // everyone can join
+            joinCourseButton.setVisibility(View.VISIBLE);
+
+            if (isTeacher) {
+                // teachers see only their courses
+                repo.getCourseByTeacher(user.getId())
+                        .observe(this, coursesList -> adapter.updateData(coursesList));
+            } else {
+                // Students see all courses
+                repo.getAllCourses()
+                        .observe(this, coursesList -> adapter.updateData(coursesList));
+
+            //this option makes it so join a course button disappears for students
+//            if (user != null && "teacher".equals(user.getRole())) {
+//                createNewCourseButton.setVisibility(View.VISIBLE);
+//                joinCourseButton.setVisibility(View.VISIBLE);
+//                repo.getCourseByTeacher(user.getId())
+//                        .observe(this, coursesList -> {
+//                            adapter.updateData(coursesList);
+//                        });
+//            } else { //student: show all courses
+//                createNewCourseButton.setVisibility(View.GONE);
+//                joinCourseButton.setVisibility(View.GONE);
+//                repo.getAllCourses().observe(this, coursesList ->
+//                        adapter.updateData(coursesList));
+            }
         });
-
-
     }
 }

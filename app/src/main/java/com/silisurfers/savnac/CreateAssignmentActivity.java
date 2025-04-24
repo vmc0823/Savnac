@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,7 +27,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         repo = SavnacRepository.getInstance(getApplicationContext());
-        currentUser = repo.getCurrentUserSync().getValue();
+        currentUser = repo.getCurrentUser().getValue();
 
         //blocking students from editing
         if(currentUser == null
@@ -51,25 +52,22 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             String points = editTextMaxPoints.getText().toString().trim();
             //validate input
             if(TextUtils.isEmpty(name) || TextUtils.isEmpty(points)) {
-                //TODO: user feedback maybe a toast?
+                Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            int maxPoints;
-            try {
-                maxPoints = Integer.parseInt(points);
-            } catch (NumberFormatException e) {
-                //TODO: show invalid-number error to user
-                return;
-            }
+            int maxPoints = Integer.parseInt(points);
+//            try {
+//                maxPoints = Integer.parseInt(points);
+//            } catch (NumberFormatException e) {
+//                //TODO: show invalid-number error to user
+//                return;
+//            }
 
             //entity
-            SavnacAssignment asgmnt = new SavnacAssignment();
-            asgmnt.setCourseId(courseId);
-            asgmnt.setAssignmentName(name);
-            asgmnt.setPoints(maxPoints);
+            SavnacAssignment assignment = new SavnacAssignment(name, courseId, maxPoints);
 
-            repo.insertAssignment(asgmnt);
+            repo.insertAssignment(assignment);
             finish();
         });
     }

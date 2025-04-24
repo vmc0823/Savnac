@@ -2,8 +2,10 @@ package com.silisurfers.savnac.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacAssignment;
 
@@ -12,15 +14,26 @@ import java.util.List;
 @Dao
 public interface SavnacAssignmentDao {
     @Insert
-    void insert(SavnacAssignment assignment);
+    long insert(SavnacAssignment assignment);
 
+    @Update
+    void update(SavnacAssignment assignment);
+
+    @Delete
+    void delete(SavnacAssignment assignment);
 
     @Query("SELECT * FROM assignments")
     LiveData<List<SavnacAssignment>> getAllAssignments();
 
-    /// TODO: update this to get all assignments from a specific course
+    @Query("SELECT * FROM assignments WHERE id = :assignmentId")
+    LiveData<SavnacAssignment> getAssignmentById(int assignmentId);
 
-    /// TODO: delete assignment
+    @Query("SELECT * FROM assignments WHERE id = :assignmentId")
+    SavnacAssignment getAssignmentByIdSync(int assignmentId);
 
-    /// TODO: update assignment
+    @Query("DELETE FROM assignments WHERE id = :assignmentId")
+    void deleteById(int assignmentId);
+
+    @Query("DELETE FROM assignments WHERE course_id = :courseId")
+    void deleteByCourseId(int courseId);
 }

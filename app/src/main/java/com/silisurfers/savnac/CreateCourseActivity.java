@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacEnrollment;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.StudentListAdapter;
 
@@ -41,7 +43,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         repo = SavnacRepository.getInstance(getApplicationContext());
         currentUser = repo.getCurrentUser().getValue();
 
-        if(currentUser == null || !"teacher".equals(currentUser.getRole())) { //block non-teachers
+        if (currentUser == null || !"teacher".equals(currentUser.getRole())) { //block non-teachers
             finish();
             return;
         }
@@ -61,7 +63,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         adapter = new StudentListAdapter(admitted);
         recyclerViewStudents.setAdapter(adapter);
 
-       //add student button
+        //add student button
         buttonAddStudent.setOnClickListener(v -> {
             String name = editTextStudentName.getText().toString().trim();
             if (!TextUtils.isEmpty(name)) {
@@ -72,18 +74,27 @@ public class CreateCourseActivity extends AppCompatActivity {
 
         //press enter to confirm course button
         buttonConfirmCourse.setOnClickListener(v -> {
-            String course = editTextCourseName.getText().toString().trim();
-            if (TextUtils.isEmpty(course) || admitted.isEmpty()) {
-            //TODO: show error to user
-            return;
-        }
-        for (String studentName : admitted) {
-            //Enrollment entity here instead
-            repo.insertUser(new SavnacUser(studentName,
-                    "",
-                    "student"));
+            String courseName = editTextCourseName.getText().toString().trim();
+            if (TextUtils.isEmpty(courseName) || admitted.isEmpty()) {
+                Toast.makeText(this, "Course name/students required", Toast.LENGTH_SHORT).show();
+                return;
             }
-        finish();
+
+            //insert course and get the newCourseId directly
+            SavnacCourse course = new SavnacCourse(courseName, currentUser.getId());
+            long newCourseId = repo.insertCourse(course); //casted it so if multiple courses are added quickly,
+            // the last item in the list might not be the newly created course
+
+            //enroll students using newCourseId
+            for (String studentName : admitted) {
+                repo.getUserByUsername(studentName).observe(this, student -> {
+                    if (student != null) {
+                        SavnacEnrollment enrollment = new SavnacEnrollment(student.getId(), (int) newCourseId);
+                        repo.insertEnrollment(enrollment);
+                    }
+                });
+            }
+            finish();
         });
     }
 }

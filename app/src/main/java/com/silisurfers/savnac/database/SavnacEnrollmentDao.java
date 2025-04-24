@@ -28,7 +28,7 @@ public interface SavnacEnrollmentDao {
     // [Explanation of the @Query annotation]===============================================================================================================
     // @Query is an instruction for Room.
     // This instruction tells Room to select all rows from the enrollmentOptions table.
-    @Query("SELECT * FROM enrollmentOptions")   // This line specifically means "select all rows from the enrollmentOptions table."
+    @Query("SELECT * FROM enrollments")// This line specifically means "select all rows from the enrollmentOptions table."
 
     // [Explanation of the return type]=====================================================================================================================
     // The return type being LiveData<List<SavnacEnrollment>>, this tells Room to
@@ -38,6 +38,12 @@ public interface SavnacEnrollmentDao {
                                                                 // 1. Let's users observe the list of all rows/options (in this case - all course options).
                                                                 // 2. automatically updates the UI when the data changes.
 
-    @Query("SELECT * FROM enrollmentOptions WHERE id = :id") //added by vw, this query matches repo class (see repo class)
+    @Query("SELECT * FROM enrollments WHERE id = :id") //added by vw, this query matches repo class (see repo class)
     LiveData<SavnacEnrollment> getById(int id);
+
+    @Query("SELECT * FROM enrollments WHERE course_id = :courseId")
+    LiveData<List<SavnacEnrollment>> getEnrollmentsByCourse(int courseId);
+
+    @Query("SELECT * FROM enrollments WHERE student_id = :studentId")
+    LiveData<List<SavnacEnrollment>> getEnrollmentsByStudent(int studentId);
 }

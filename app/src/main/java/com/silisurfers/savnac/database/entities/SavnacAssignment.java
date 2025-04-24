@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
@@ -14,7 +15,10 @@ import androidx.room.PrimaryKey;
             @ForeignKey(
                     entity = SavnacCourse.class,
                     parentColumns = "id", childColumns = "course_id",
-                    onDelete = CASCADE)
+                    onDelete = CASCADE),
+    },
+            indices = {
+                    @Index("course_id") //added index
     }
 )
 public class SavnacAssignment {
@@ -25,20 +29,21 @@ public class SavnacAssignment {
     @ColumnInfo(name="course_id")
     private int courseId;
 
+    @ColumnInfo(name = "assignment_name")
     private String assignmentName;
 
+    @ColumnInfo(name = "points")
     private int points;
 
-    @Ignore
     public SavnacAssignment(String assignmentName, int courseId, int points){
         this.assignmentName = assignmentName;
         this.courseId = courseId;
         this.points = points;
     }
 
-    public SavnacAssignment(){
-
-    }
+//    public SavnacAssignment(){
+//
+//    }
 
     public int getId() {
         return id;

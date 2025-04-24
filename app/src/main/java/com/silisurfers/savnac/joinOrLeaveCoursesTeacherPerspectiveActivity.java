@@ -1,12 +1,16 @@
 package com.silisurfers.savnac;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -14,10 +18,19 @@ import java.util.List;
 
 public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView; // UI element that will display the list. recyclerView was chosen as I will need a scrollable list of courses
-    private CoursesActivityRecyclerAdapter adapter; // this tells RecyclerView what to show
+    // chose recyclerView since I want a scrollable list of courses that can be clickable
+    private RecyclerView availableCoursesRecyclerView;
+    private RecyclerView currentlyEnrolledCourseRecyclerView;
 
-    private List<SavnacCourse> courses; // I need this line to create a dummy data => will create a list of course objects (e.g. "CST 300" etc.)
+    // this tells RecyclerView what to show
+    private CoursesActivityRecyclerAdapter availableCoursesAdapter;
+    private CoursesActivityRecyclerAdapter currentlyEnrolledCourseAdapter;
+
+    // I need these lines to create a dummy data => will create a list of course objects (e.g. "CST 300" etc.)
+    private List<SavnacCourse> availableCourses;
+    private List<SavnacCourse> currentlyEnrolledCourses;
+    private SavnacRepository repo;
+    private int currentTeacherId;
 
 
     // loading the activity screen
@@ -29,23 +42,82 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
         // "use this activity_main.xml layout file to build this screen's UI"
         setContentView(R.layout.join_or_leave_courses_teacher_perspective_page);
 
-        recyclerView = findViewById(R.id.AvailableCourses);
+        repo = SavnacRepository.getInstance(getApplicationContext());
 
+        availableCoursesRecyclerView = findViewById(R.id.AvailableCourses);
+        currentlyEnrolledCourseRecyclerView = findViewById(R.id.Current_Course_RecyclerView);
 
+// ==========================[EVERYTHING DOWN HERE IS FOR TESTING PURPOSE]=======================================================================================
         // dummy data
-        courses = new ArrayList<>();
-        courses.add(new SavnacCourse("CST 300", 1));
-        courses.add(new SavnacCourse("CST 338", 1));
-        courses.add(new SavnacCourse("CST 363", 1));
-        courses.add(new SavnacCourse("CST 101", 1));
-        courses.add(new SavnacCourse("CST 102", 1));
-        courses.add(new SavnacCourse("CST 103", 1));
+//        availableCourses = new ArrayList<>();
+//        availableCourses.add(new SavnacCourse("Computer Science", 1));
+//        availableCourses.add(new SavnacCourse("Biology", 1));
+//        availableCourses.add(new SavnacCourse("Physics", 1));
+//
+//        currentlyEnrolledCourses = new ArrayList<>();
+//        currentlyEnrolledCourses.add(new SavnacCourse("History", 1));
+//
+//
+//        // creating an adapter and giving it the list of course data
+//        availableCoursesAdapter = new CoursesActivityRecyclerAdapter(availableCourses, course -> {
+//            // when clicked, remove from available and move to current
+//            availableCoursesAdapter.removeItem(course);
+//            Log.d("checkpoint", "checkpoint reached: successfully removed course from 'availableCourses'");
+//            currentlyEnrolledCourseAdapter.addItem(course);
+//            Log.d("checkpoint", "checkpoint reached: successfully added course to 'currentlyEnrolledCourse'");
+//        });
 
-        adapter = new CoursesActivityRecyclerAdapter(courses);  // creating an adapter and giving it the list of course data
+        //-VW. initializing adapters with empty lists + click listeners
+        availableCoursesAdapter = new CoursesActivityRecyclerAdapter(
+                new ArrayList<>(),
+                course -> {
+                    course.setTeacherId(currentTeacherId);
+                    repo.updateCourse(course);
+                }
+        );
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));   // this means the list will scroll vertically like a classic list
-        recyclerView.setAdapter(adapter);   // tells the RecyclerView how to display each item by using the adapter
+        availableCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));    // this means the list will scroll vertically like a classic list
+        availableCoursesRecyclerView.setAdapter(availableCoursesAdapter);                       // tells the RecyclerView how to display each item by using the adapter
+
+        currentlyEnrolledCourseAdapter = new CoursesActivityRecyclerAdapter(   //teacher joins this course -> sets teacherId and updates DB
+                new ArrayList<>(),
+                course -> {
+                    course.setTeacherId(0);
+                    repo.updateCourse(course);
+                }
+        );
+
+//        currentlyEnrolledCourseAdapter = new CoursesActivityRecyclerAdapter(currentlyEnrolledCourses, course -> {
+//            // when clicked, remove from current and move to available
+//            currentlyEnrolledCourseAdapter.removeItem(course);
+//            availableCoursesAdapter.addItem(course);
+//        });
+
+        currentlyEnrolledCourseRecyclerView.setLayoutManager(new LinearLayoutManager(this));    // this means the list will scroll vertically like a classic list
+        currentlyEnrolledCourseRecyclerView.setAdapter(currentlyEnrolledCourseAdapter);                // tells the RecyclerView how to display each item by using the adapter
+
+        //pulling from DB
+        repo.getCurrentUser().observe(this, (Observer<SavnacUser>) user -> {
+            if (user == null || !"teacher".equals(user.getRole())) {
+                finish();
+                return;
+            }
+            currentTeacherId = user.getId();
+
+            //"enrolled" = courses teacher teaches
+            repo.getCourseByTeacher(currentTeacherId)
+                    .observe(this, taughtCourses -> {
+                        currentlyEnrolledCourseAdapter.updateData(taughtCourses);
+                    });
+
+            //"available = all other courses
+            repo.getAllCourses()
+                    .observe(this, allCourses -> {
+                        List<SavnacCourse> available = new ArrayList<>(allCourses);
+                        available.removeIf(c -> c.getTeacherId() == currentTeacherId);
+                        availableCoursesAdapter.updateData(available);
+                    });
+        });
 
     }
-
 }

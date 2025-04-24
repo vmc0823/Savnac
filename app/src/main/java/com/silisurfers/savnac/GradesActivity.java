@@ -1,5 +1,6 @@
 package com.silisurfers.savnac;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,16 +16,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.silisurfers.savnac.database.SavnacRepository;
+import com.silisurfers.savnac.database.entities.SavnacAssignment;
 import com.silisurfers.savnac.database.entities.SavnacAssignmentWithGrade;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
+import com.silisurfers.savnac.database.entities.SavnacGradeEntry;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 import com.silisurfers.savnac.viewHolder.GradesActivityRecyclerAdapter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class GradesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
+    private SavnacRepository repo;
+
     private List<SavnacAssignmentWithGrade> grades;
     private GradesActivityRecyclerAdapter adapter;
     @Override
@@ -37,17 +46,39 @@ public class GradesActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        try{
+            repo = SavnacRepository.getInstance(getApplicationContext());
+            recyclerView = findViewById(R.id.grades_recycler_view);
 
-        recyclerView = findViewById(R.id.grades_recycler_view);
+            SavnacUser dummyUser =  repo.insertAndReturnUser(new SavnacUser(UUID.randomUUID().toString(), "dummyPassword", "student")).get();
+            SavnacUser dummyTeacher = repo.insertAndReturnUser(new SavnacUser(UUID.randomUUID().toString(), "dummyPassword", "teacher")).get();
+            SavnacCourse dummyCourse = repo.insertAndReturnCourse(new SavnacCourse("dummyCourse", dummyTeacher.getId())).get();
+            SavnacAssignment dummyAssignment1 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment1", dummyCourse.getId(), 20)).get();
+            SavnacAssignment dummyAssignment2 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment2", dummyCourse.getId(), 20)).get();
+            SavnacAssignment dummyAssignment3 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment3", dummyCourse.getId(), 100)).get();
 
-        ///  just some dummy data for now
-        grades = new ArrayList<>();
-        grades.add(new SavnacAssignmentWithGrade("Assignment 1", 20, 20));
-        grades.add(new SavnacAssignmentWithGrade("Assignment 2", 20, 15));
-        grades.add(new SavnacAssignmentWithGrade("Assignment 3", 100, 95));
+            SavnacGradeEntry dummyAssignmentGrade1 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment1.getId(),20, LocalDateTime.now())).get();
+            SavnacGradeEntry dummyAssignmentGrade2 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment2.getId(),15, LocalDateTime.now())).get();
 
-        adapter = new GradesActivityRecyclerAdapter(grades);
+            SavnacGradeEntry dummyAssignmentGrade3 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment3.getId(),95, LocalDateTime.now())).get();
 
+
+
+            repo.getUserGradesByCourseId(dummyUser.getId(),dummyCourse.getId()).observe(this, grades -> {
+                System.out.println("NUMBER OF GRADES "+grades.size());
+                adapter.setItems(grades);
+                adapter.notifyDataSetChanged();
+            });
+        }catch(Exception e){
+
+           e.printStackTrace();
+            System.out.println("failed to generate dummy data");
+        }
+
+
+
+        adapter = new GradesActivityRecyclerAdapter(new ArrayList<>());
+//
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
