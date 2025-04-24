@@ -3,6 +3,7 @@ package com.silisurfers.savnac;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -77,29 +78,28 @@ public class CoursesActivity extends AppCompatActivity {
 
         //LiveData sync
         repo = SavnacRepository.getInstance(getApplicationContext());
+
         repo.getCurrentUser().observe(this, user -> {
-            boolean isTeacher = (user != null && "teacher".equals(user.getRole())); //teachers see both create new course and join a course,
+            boolean isTeacher = (user != null && "teacher".equalsIgnoreCase(user.getRole().trim())); //teachers see both create new course and join a course,
             // plus only their own courses and students see only join a course, plus every course in the system
 
-
             // only teachers can create
-            createNewCourseButton.setVisibility(isTeacher
-                    ? View.VISIBLE
-                    : View.GONE);
+            createNewCourseButton.setVisibility(isTeacher ? View.VISIBLE : View.GONE);
 
-            // everyone can join
-            joinCourseButton.setVisibility(View.VISIBLE);
+            // everyone sees join
+            joinCourseButton.setVisibility(user != null ? View.VISIBLE : View.GONE);
 
-            if (isTeacher) {
-                // teachers see only their courses
-                repo.getCourseByTeacher(user.getId())
-                        .observe(this, coursesList -> adapter.updateData(coursesList));
-            } else {
-                // Students see all courses
-                repo.getAllCourses()
-                        .observe(this, coursesList -> adapter.updateData(coursesList));
+            //load course list
+            if (user != null) {
+                if (isTeacher) {
+                    repo.getCourseByTeacher(user.getId())
+                            .observe(this, coursesList -> adapter.updateData(coursesList));
+                } else {
+                    // Students see all courses
+                    repo.getAllCourses()
+                            .observe(this, coursesList -> adapter.updateData(coursesList));
 
-            //this option makes it so join a course button disappears for students
+                    //this option makes it so join a course button disappears for students
 //            if (user != null && "teacher".equals(user.getRole())) {
 //                createNewCourseButton.setVisibility(View.VISIBLE);
 //                joinCourseButton.setVisibility(View.VISIBLE);
@@ -112,6 +112,7 @@ public class CoursesActivity extends AppCompatActivity {
 //                joinCourseButton.setVisibility(View.GONE);
 //                repo.getAllCourses().observe(this, coursesList ->
 //                        adapter.updateData(coursesList));
+                }
             }
         });
     }

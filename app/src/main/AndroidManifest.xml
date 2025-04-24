@@ -72,7 +72,7 @@
         </activity>
         <activity
             android:name=".CreateAssignmentActivity"
-            android:exported="false" />
+            android:exported="true" />
 
     </application>
 

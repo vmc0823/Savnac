@@ -41,23 +41,25 @@ public class CreateCourseActivity extends AppCompatActivity {
 
         //initializing repo and curreent user
         repo = SavnacRepository.getInstance(getApplicationContext());
-        currentUser = repo.getCurrentUser().getValue();
+        repo.getCurrentUser().observe(this, user -> {
+            if (user == null || !"teacher".equalsIgnoreCase(user.getRole().trim())) { //block non-teachers
+                finish();
+            } else {
+                currentUser = user;
+                initializeUI();
+            }
+        });
+    }
 
-        if (currentUser == null || !"teacher".equals(currentUser.getRole())) { //block non-teachers
-            finish();
-            return;
-        }
-
+    private void initializeUI() {
         //inflate layout
         setContentView(R.layout.activity_create_course);
-
         //bind views
         EditText editTextCourseName = findViewById(R.id.editTextCourseName);
         EditText editTextStudentName = findViewById(R.id.editTextStudentName);
         Button buttonAddStudent = findViewById(R.id.buttonAddStudent);
         Button buttonConfirmCourse = findViewById(R.id.buttonConfirmCourse);
         recyclerViewStudents = findViewById(R.id.recyclerViewStudents);
-
         //layout manager
         recyclerViewStudents.setLayoutManager(new LinearLayoutManager(this));
         adapter = new StudentListAdapter(admitted);
@@ -84,6 +86,7 @@ public class CreateCourseActivity extends AppCompatActivity {
             SavnacCourse course = new SavnacCourse(courseName, currentUser.getId());
             long newCourseId = repo.insertCourse(course); //casted it so if multiple courses are added quickly,
             // the last item in the list might not be the newly created course
+
 
             //enroll students using newCourseId
             for (String studentName : admitted) {
