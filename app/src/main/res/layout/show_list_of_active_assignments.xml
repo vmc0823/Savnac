@@ -16,7 +16,7 @@
     in chronological (as in: top-to-bottom) order as shown in Design view.
     -->
 
-    <!-- TextView that says "Your current courses" -->
+    <!-- TextView that says "List of Assignments" -->
     <TextView
         android:id="@+id/list_of_assignments_textview"
         android:layout_width="match_parent"
