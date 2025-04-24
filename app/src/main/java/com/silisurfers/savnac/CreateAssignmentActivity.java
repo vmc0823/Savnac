@@ -42,6 +42,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         buttonConfirmAssignment = findViewById(R.id.buttonConfirmAssignment);
 
         courseId = getIntent().getIntExtra(EXTRA_COURSE_ID, -1);
+
+        // this means: "hey courseId shouldn't be negative so something is clearly wrong. Instead of crashing the app, just close the screen and go back"
         if(courseId < 0) {
             finish();
             return;

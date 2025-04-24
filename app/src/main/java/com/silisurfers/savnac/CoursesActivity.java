@@ -61,10 +61,13 @@ public class CoursesActivity extends AppCompatActivity {
 //        adapter = new CoursesActivityRecyclerAdapter(courses);
 
         // added by Tom (19 April 2025)
+        // modified further on (4/24/2025)
+        // This section allows it so that clicking on a course from a list of available course will take the user to the "ShowListOfActiveAssignmentsActivity"
+        // as in "CoursesActivity" --> "ShowListOfActiveAssignmentsActivity"
         adapter = new CoursesActivityRecyclerAdapter(new ArrayList<>(), course -> {
-            // JAVA forces this 2nd parameter to exist but it doesn't do anything
-            // this is because the changes ive modified for the CoursesActivityRecyclerAdapter was meant for my
-            // joinOrLeaveCoursesTeacherPerspectiveActivity activity page (not this coursesActivity... yet)
+            Intent intent = new Intent(this, ShowListOfActiveAssignmentsActivity.class);
+            intent.putExtra("courseId", course.getId());
+            startActivity(intent);
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
