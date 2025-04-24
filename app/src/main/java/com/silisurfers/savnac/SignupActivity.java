@@ -41,6 +41,13 @@ public class SignupActivity extends AppCompatActivity {
                 setupUser();
             }
         });
+
+        binding.goToLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToLoginActivity();
+            }
+        });
     }
 
     private void setupUser() {
@@ -82,6 +89,12 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void goToLoginActivity() {
+        // Switch to login page if user already has an account.
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     static Intent signupIntentFactory(Context context) {
