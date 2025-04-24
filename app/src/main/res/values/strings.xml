@@ -22,6 +22,7 @@
     <string name="currently_available_courses">Currently available courses</string>
     <string name="name_of_course">Name of course</string>
     <string name="new_click_here">New? Click here</string>
+    <string name="login_page">Login Page</string>
 
     <!-- Add more strings below -->
 </resources>
