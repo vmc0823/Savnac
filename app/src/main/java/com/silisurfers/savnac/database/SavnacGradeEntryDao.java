@@ -20,7 +20,7 @@ import java.util.List;
 public interface SavnacGradeEntryDao {
 
     @Insert
-    void insert(SavnacGradeEntry gradeEntry);
+    long insert(SavnacGradeEntry gradeEntry);
 
     @Update
     void update(SavnacGradeEntry gradeEntry); //rows updated
@@ -37,9 +37,16 @@ public interface SavnacGradeEntryDao {
     @Query("SELECT * FROM grade_entries WHERE assignment_id = :asid")
     LiveData<List<SavnacGradeEntry>> getForAssignment(int asid);
 
+    @Query("SELECT * FROM grade_entries WHERE id = :id")
+    SavnacGradeEntry getGradeEntryByIdSync(int id);
+
     @RewriteQueriesToDropUnusedColumns
     @Transaction
-    @Query("SELECT assignments.*, grade_entries.*  " +
+    @Query("SELECT  grade_entries.*," +
+            "assignments.id as course_assignment_id, "+
+            "assignments.course_id as course_assignment_course_id, "+
+            "assignments.assignment_name as course_assignment_assignment_name, " +
+            "assignments.points as course_assignment_points "+
             "FROM grade_entries " +
             "INNER JOIN assignments ON grade_entries.assignment_id = assignments.id " +
             "WHERE grade_entries.student_id = :userId AND assignments.course_id = :courseId"

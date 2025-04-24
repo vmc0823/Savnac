@@ -43,6 +43,13 @@ public class LoginActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
+
+        binding.goToSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToSignupActivity();
+            }
+        });
     }
 
     private void verifyUser() {
@@ -70,6 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, String.format("%s is not a valid username.", username), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void goToSignupActivity() {
+        // Switch to login page if user already has an account.
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
     }
 
     static Intent loginIntentFactory(Context context) {

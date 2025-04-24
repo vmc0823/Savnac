@@ -8,7 +8,7 @@ public class SavnacAssignmentWithGrade {
     public SavnacGradeEntry grade;
 
 
-    @Embedded(prefix = "course_assignment")
+    @Embedded(prefix = "course_assignment_")
     public SavnacAssignment assignment;
 
 

@@ -1,5 +1,6 @@
 package com.silisurfers.savnac.viewHolder;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,14 @@ public class GradesActivityRecyclerAdapter extends RecyclerView.Adapter<GradesAc
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        System.out.println("POSITION "+position);
         SavnacAssignmentWithGrade item = itemList.get(position);
-        holder.textTitle.setText(item.assignment.getAssignmentName());
-        holder.grade.setText(String.valueOf(item.grade.getGrade()));
-        holder.assignmentPoints.setText(String.valueOf(item.assignment.getPoints()));
+        if(item != null){
+            holder.textTitle.setText(item.assignment.getAssignmentName());
+            holder.grade.setText(String.valueOf(item.grade.getGrade()));
+            holder.assignmentPoints.setText(String.valueOf(item.assignment.getPoints()));
+        }
+
     }
 
     @Override
@@ -62,5 +67,10 @@ public class GradesActivityRecyclerAdapter extends RecyclerView.Adapter<GradesAc
     public void addItem(SavnacAssignmentWithGrade item) {
         itemList.add(item);
         notifyItemInserted(itemList.size() - 1);
+    }
+
+    public void setItems(List<SavnacAssignmentWithGrade> items ){
+        this.itemList.clear();
+        this.itemList.addAll(items);
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface SavnacAssignmentDao {
     @Insert
-    void insert(SavnacAssignment assignment);
+    long insert(SavnacAssignment assignment);
 
     @Update
     void update(SavnacAssignment assignment);
@@ -27,6 +27,9 @@ public interface SavnacAssignmentDao {
 
     @Query("SELECT * FROM assignments WHERE id = :assignmentId")
     LiveData<SavnacAssignment> getAssignmentById(int assignmentId);
+
+    @Query("SELECT * FROM assignments WHERE id = :assignmentId")
+    SavnacAssignment getAssignmentByIdSync(int assignmentId);
 
     @Query("DELETE FROM assignments WHERE id = :assignmentId")
     void deleteById(int assignmentId);

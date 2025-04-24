@@ -19,9 +19,11 @@
     <string name="your_current_courses">Your current courses</string>
     <string name="join">Join</string>
     <string name="leave">Leave</string>
+    <string name="signup_page">Signup Page</string>
     <string name="currently_available_courses">Currently available courses</string>
     <string name="name_of_course">Name of course</string>
     <string name="new_click_here">New? Click here</string>
+    <string name="login_page">Login Page</string>
 
     <!-- Add more strings below -->
 </resources>
