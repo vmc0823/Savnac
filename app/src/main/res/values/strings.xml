@@ -20,6 +20,7 @@
     <string name="select_course_to_join_or_leave">Select course to join or leave</string>
     <string name="join">Join</string>
     <string name="leave">Leave</string>
+    <string name="signup_page">Signup Page</string>
 
     <!-- Add more strings below -->
 </resources>
