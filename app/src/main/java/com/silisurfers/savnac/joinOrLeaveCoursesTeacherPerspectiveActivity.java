@@ -31,6 +31,7 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
     private List<SavnacCourse> currentlyEnrolledCourses;
     private SavnacRepository repo;
     private int currentTeacherId;
+    private SavnacUser currentUser;
 
 
     // loading the activity screen
@@ -38,12 +39,18 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // This line is what connects my JAVA code to my xml file/layout. It basically means:
-        // "use this activity_main.xml layout file to build this screen's UI"
-        setContentView(R.layout.join_or_leave_courses_teacher_perspective_page);
-
         repo = SavnacRepository.getInstance(getApplicationContext());
 
+        repo.getCurrentUser().observe(this, user -> {
+            Log.d("JoinActivity", "Loaded role: [" + user.getRole() + "]");
+            if (user == null || !"teacher".equalsIgnoreCase(user.getRole().trim())) {
+                finish();
+                return;
+            }
+
+        currentTeacherId = user.getId();
+
+        setContentView(R.layout.join_or_leave_courses_teacher_perspective_page);
         availableCoursesRecyclerView = findViewById(R.id.AvailableCourses);
         currentlyEnrolledCourseRecyclerView = findViewById(R.id.Current_Course_RecyclerView);
 
@@ -67,7 +74,15 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
 //            Log.d("checkpoint", "checkpoint reached: successfully added course to 'currentlyEnrolledCourse'");
 //        });
 
-        //-VW. initializing adapters with empty lists + click listeners
+            //adapters with click-handlers that update Room
+        currentlyEnrolledCourseAdapter = new CoursesActivityRecyclerAdapter(
+                new ArrayList<>(),
+                course -> {
+                course.setTeacherId(0);
+                repo.updateCourse(course);
+                }
+        );
+
         availableCoursesAdapter = new CoursesActivityRecyclerAdapter(
                 new ArrayList<>(),
                 course -> {
@@ -76,16 +91,14 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
                 }
         );
 
-        availableCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(this));    // this means the list will scroll vertically like a classic list
+        //wiring them to recyclerViews
+        currentlyEnrolledCourseRecyclerView.setLayoutManager(new LinearLayoutManager(joinOrLeaveCoursesTeacherPerspectiveActivity.this));    // this means the list will scroll vertically like a classic list
+        currentlyEnrolledCourseRecyclerView.setAdapter(currentlyEnrolledCourseAdapter);
+
+        availableCoursesRecyclerView.setLayoutManager(new LinearLayoutManager(joinOrLeaveCoursesTeacherPerspectiveActivity.this));    // this means the list will scroll vertically like a classic list
         availableCoursesRecyclerView.setAdapter(availableCoursesAdapter);                       // tells the RecyclerView how to display each item by using the adapter
 
-        currentlyEnrolledCourseAdapter = new CoursesActivityRecyclerAdapter(   //teacher joins this course -> sets teacherId and updates DB
-                new ArrayList<>(),
-                course -> {
-                    course.setTeacherId(0);
-                    repo.updateCourse(course);
-                }
-        );
+
 
 //        currentlyEnrolledCourseAdapter = new CoursesActivityRecyclerAdapter(currentlyEnrolledCourses, course -> {
 //            // when clicked, remove from current and move to available
@@ -93,26 +106,16 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
 //            availableCoursesAdapter.addItem(course);
 //        });
 
-        currentlyEnrolledCourseRecyclerView.setLayoutManager(new LinearLayoutManager(this));    // this means the list will scroll vertically like a classic list
-        currentlyEnrolledCourseRecyclerView.setAdapter(currentlyEnrolledCourseAdapter);                // tells the RecyclerView how to display each item by using the adapter
 
-        //pulling from DB
-        repo.getCurrentUser().observe(this, (Observer<SavnacUser>) user -> {
-            if (user == null || !"teacher".equals(user.getRole())) {
-                finish();
-                return;
-            }
-            currentTeacherId = user.getId();
-
-            //"enrolled" = courses teacher teaches
+            //observe Room lists and feed into adapters
             repo.getCourseByTeacher(currentTeacherId)
-                    .observe(this, taughtCourses -> {
+                    .observe(joinOrLeaveCoursesTeacherPerspectiveActivity.this, taughtCourses -> {
                         currentlyEnrolledCourseAdapter.updateData(taughtCourses);
                     });
 
             //"available = all other courses
             repo.getAllCourses()
-                    .observe(this, allCourses -> {
+                    .observe(joinOrLeaveCoursesTeacherPerspectiveActivity.this, allCourses -> {
                         List<SavnacCourse> available = new ArrayList<>(allCourses);
                         available.removeIf(c -> c.getTeacherId() == currentTeacherId);
                         availableCoursesAdapter.updateData(available);
