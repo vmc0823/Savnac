@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,7 +22,6 @@ import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +34,7 @@ public class CoursesActivity extends AppCompatActivity {
     private SavnacUser currentUser;
     private Button createNewCourseButton;
     private Button joinCourseButton;
-    private Button logoutButton; // added by Brandon (25 April 2025)
+    private Button accountButton; // added by Brandon (25 April 2025)
 
 
 
@@ -52,12 +49,11 @@ public class CoursesActivity extends AppCompatActivity {
             return insets;
         });
 
-        //currentUser = repo.getCurrentUser().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
         createNewCourseButton = findViewById(R.id.create_a_course_button);
         joinCourseButton = findViewById(R.id.join_a_course_button);
         // added by Brandon (25 April 2025)
-        logoutButton = findViewById(R.id.logoutButton);
+        accountButton = findViewById(R.id.account_button);
 
         ///  just some dummy data for now
 //        courses = new ArrayList<>();
@@ -84,7 +80,7 @@ public class CoursesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
 
         // added by Brandon (25 April 2025)
-        logoutButton.setOnClickListener(v -> showLogoutDialog());
+        accountButton.setOnClickListener(v -> showAccountDialog());
 
         //LiveData sync
         repo = SavnacRepository.getInstance(getApplicationContext());
@@ -101,8 +97,6 @@ public class CoursesActivity extends AppCompatActivity {
 
             //load course list
             if (user != null) {
-                logoutButton.setText(user.getUsername()); // added by Brandon (display username on login)
-
                 if (isTeacher) {
                     repo.getCourseByTeacher(user.getId())
                             .observe(this, coursesList -> adapter.updateData(coursesList));
@@ -130,11 +124,14 @@ public class CoursesActivity extends AppCompatActivity {
     }
 
     // added by Brandon (25 April 2025)
-    private void showLogoutDialog() {
+    private void showAccountDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(CoursesActivity.this);
         final AlertDialog alertDialog = alertBuilder.create();
 
-        alertBuilder.setMessage("Would you like to log out of Savnac?");
+        alertBuilder.setMessage(String.format("Savnac Account Details%n%nUsername: %s%nRole: %s%nAccount ID: %s%n",
+                Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername(),
+                Objects.requireNonNull(repo.getCurrentUser().getValue()).getRole(),
+                repo.getCurrentUser().getValue().getId()));
 
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
             @Override
@@ -143,7 +140,7 @@ public class CoursesActivity extends AppCompatActivity {
             }
         });
 
-        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
