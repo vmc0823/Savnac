@@ -1,9 +1,11 @@
 package com.silisurfers.savnac;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -34,8 +36,6 @@ public class CoursesActivity extends AppCompatActivity {
     private SavnacUser currentUser;
     private Button createNewCourseButton;
     private Button joinCourseButton;
-    private Button accountButton; // added by Brandon (25 April 2025)
-
 
 
     @Override
@@ -53,7 +53,7 @@ public class CoursesActivity extends AppCompatActivity {
         createNewCourseButton = findViewById(R.id.create_a_course_button);
         joinCourseButton = findViewById(R.id.join_a_course_button);
         // added by Brandon (25 April 2025)
-        accountButton = findViewById(R.id.account_button);
+        Button accountButton = findViewById(R.id.account_button);
 
         ///  just some dummy data for now
 //        courses = new ArrayList<>();
@@ -159,6 +159,12 @@ public class CoursesActivity extends AppCompatActivity {
         repo.setCurrentUser(null);
 
         // Send user back to the LoginActivity.
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+        startActivity(intent);
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent coursesIntentFactory(Context context) {
+        return new Intent(context, CoursesActivity.class);
     }
 }
