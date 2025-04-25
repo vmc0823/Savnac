@@ -26,6 +26,8 @@ public class SavnacRepository {
     private static SavnacRepository instance;
     private final ExecutorService writeExecutor = Executors.newFixedThreadPool(2);
 
+    private LiveData<SavnacUser> currentUser;
+
     private SavnacRepository(Context context) {
         db = SavnacDatabase.getInstance(context);
     }
@@ -39,8 +41,22 @@ public class SavnacRepository {
 
     //USERS**********
     //who is currently signed in?
+
+    // Author: Brandon Evans (for this method only)
     public LiveData<SavnacUser> getCurrentUser() {
-        return db.savnacUserDao().getFirstUserSync();
+        if (this.currentUser == null) {
+            // This check is here for debugging purposes it should be removed when application is finished.
+            return db.savnacUserDao().getFirstUserSync();
+        } else {
+            // Get the current user, used in various parts of the application.
+            return this.currentUser;
+        }
+    }
+
+    // Author: Brandon Evans (for this method only)
+    public void setCurrentUser(LiveData<SavnacUser> user) {
+        // Set the current user to the specified user, used when logging in and signing up.
+        this.currentUser = user;
     }
 
     //all users (for debugging)
