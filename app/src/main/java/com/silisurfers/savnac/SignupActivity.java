@@ -99,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void goToLoginActivity() {
         // Switch to login page if user already has an account.
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
         startActivity(intent);
     }
 
