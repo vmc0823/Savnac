@@ -19,6 +19,16 @@
         app:title="SAVNAC courses"
         app:titleCentered="true" />
 
+    <Button
+        android:id="@+id/account_button"
+        android:layout_width="117dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        android:text="Account"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/courses_recycler_view"
         android:layout_width="fill_parent"

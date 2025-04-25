@@ -1,11 +1,14 @@
 package com.silisurfers.savnac;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +24,8 @@ import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class CoursesActivity extends AppCompatActivity {
     ///  this is the container that holds all the links. I picked recycler view since it is a dynamic list and may need to scroll
@@ -33,7 +36,6 @@ public class CoursesActivity extends AppCompatActivity {
     private SavnacUser currentUser;
     private Button createNewCourseButton;
     private Button joinCourseButton;
-
 
 
     @Override
@@ -47,10 +49,11 @@ public class CoursesActivity extends AppCompatActivity {
             return insets;
         });
 
-//        currentUser = repo.getCurrentUser().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
         createNewCourseButton = findViewById(R.id.create_a_course_button);
         joinCourseButton = findViewById(R.id.join_a_course_button);
+        // added by Brandon (25 April 2025)
+        Button accountButton = findViewById(R.id.account_button);
 
         ///  just some dummy data for now
 //        courses = new ArrayList<>();
@@ -78,6 +81,9 @@ public class CoursesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CreateCourseActivity.class)));
         joinCourseButton.setOnClickListener(v ->
                 startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
+
+        // added by Brandon (25 April 2025)
+        accountButton.setOnClickListener(v -> showAccountDialog());
 
         //LiveData sync
         repo = SavnacRepository.getInstance(getApplicationContext());
@@ -118,5 +124,50 @@ public class CoursesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    private void showAccountDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(CoursesActivity.this);
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        alertBuilder.setMessage(String.format("Savnac Account Details%n%nUsername: %s%nRole: %s%nAccount ID: %s%n",
+                Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername(),
+                Objects.requireNonNull(repo.getCurrentUser().getValue()).getRole(),
+                repo.getCurrentUser().getValue().getId()));
+
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+
+        alertBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertBuilder.create().show();
+    }
+
+    // added by Brandon (25 April 2025)
+    private void logout() {
+        // Inform user they have logged out.
+        Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
+
+        // Set the current user to null as no user is currently signed in.
+        repo.setCurrentUser(null);
+
+        // Send user back to the LoginActivity.
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+        startActivity(intent);
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent coursesIntentFactory(Context context) {
+        return new Intent(context, CoursesActivity.class);
     }
 }
