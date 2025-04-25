@@ -26,6 +26,8 @@ public class SavnacRepository {
     private static SavnacRepository instance;
     private final ExecutorService writeExecutor = Executors.newFixedThreadPool(2);
 
+    private LiveData<SavnacUser> currentUser;
+
     private SavnacRepository(Context context) {
         db = SavnacDatabase.getInstance(context);
     }
@@ -39,8 +41,22 @@ public class SavnacRepository {
 
     //USERS**********
     //who is currently signed in?
+
+    // Author: Brandon Evans (for this method only)
     public LiveData<SavnacUser> getCurrentUser() {
-        return db.savnacUserDao().getFirstUserSync();
+        if (this.currentUser == null) {
+            // This check is here for debugging purposes it should be removed when application is finished.
+            return db.savnacUserDao().getFirstUserSync();
+        } else {
+            // Get the current user, used in various parts of the application.
+            return this.currentUser;
+        }
+    }
+
+    // Author: Brandon Evans (for this method only)
+    public void setCurrentUser(LiveData<SavnacUser> user) {
+        // Set the current user to the specified user, used when logging in and signing up.
+        this.currentUser = user;
     }
 
     //all users (for debugging)
@@ -105,6 +121,10 @@ public class SavnacRepository {
         }, writeExecutor);
     }
 
+    //full course objects for all courses a student is enrolled in
+    public LiveData<List<SavnacCourse>> getCoursesForStudent(int studentId) {
+        return db.savnacEnrollmentDao().getCoursesForStudent(studentId);
+    }
 
     //delete a course
     public void deleteCourse(int courseId) {
@@ -124,11 +144,20 @@ public class SavnacRepository {
     }
 
     //single enrollment by PK
-    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
-        return db.savnacEnrollmentDao().getById(id);
+//    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
+//        return db.savnacEnrollmentDao().getById(id);
+//    }
+
+    //given student
+    public LiveData<List<SavnacEnrollment>> getEnrollmentsForStudent(int studentId) {
+        return db.savnacEnrollmentDao().getEnrollmentsForStudent(studentId);
     }
 
-    //courseId column
+    public void deleteEnrollment(SavnacEnrollment enrollment) {
+        writeExecutor.execute(() ->
+                db.savnacEnrollmentDao().delete(enrollment)
+        );
+    }
 
     //ASSIGNMENTS************
     //all assignments in system

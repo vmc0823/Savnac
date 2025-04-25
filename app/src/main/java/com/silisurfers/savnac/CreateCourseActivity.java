@@ -1,5 +1,6 @@
 package com.silisurfers.savnac;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacEnrollment;
@@ -98,6 +100,11 @@ public class CreateCourseActivity extends AppCompatActivity {
                 });
             }
             finish();
+        });
+        MaterialToolbar toolbar = findViewById(R.id.courses_activity_toolbar);
+        toolbar.setNavigationOnClickListener((v) -> {
+            Intent intent  = new Intent(this, CoursesActivity.class);
+            startActivity(intent);
         });
     }
 }
