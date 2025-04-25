@@ -50,7 +50,7 @@ public class CoursesActivity extends AppCompatActivity {
             return insets;
         });
 
-//        currentUser = repo.getCurrentUser().getValue();
+        currentUser = repo.getCurrentUser().getValue();
         recyclerView = findViewById(R.id.courses_recycler_view);
         createNewCourseButton = findViewById(R.id.create_a_course_button);
         joinCourseButton = findViewById(R.id.join_a_course_button);
@@ -84,7 +84,7 @@ public class CoursesActivity extends AppCompatActivity {
         // added by Brandon (25 April 2025)
         logoutButton.setOnClickListener(v -> {
             // Inform user they have logged out.
-            Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(currentUser).getUsername()), Toast.LENGTH_SHORT).show();
 
             // Set the current user to null as no user is currently signed in.
             repo.setCurrentUser(null);
