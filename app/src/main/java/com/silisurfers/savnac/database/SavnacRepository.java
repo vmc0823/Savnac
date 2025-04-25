@@ -105,6 +105,10 @@ public class SavnacRepository {
         }, writeExecutor);
     }
 
+    //full course objects for all courses a student is enrolled in
+    public LiveData<List<SavnacCourse>> getCoursesForStudent(int studentId) {
+        return db.savnacEnrollmentDao().getCoursesForStudent(studentId);
+    }
 
     //delete a course
     public void deleteCourse(int courseId) {
@@ -124,11 +128,20 @@ public class SavnacRepository {
     }
 
     //single enrollment by PK
-    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
-        return db.savnacEnrollmentDao().getById(id);
+//    public LiveData<SavnacEnrollment> getEnrollmentById(int id) {
+//        return db.savnacEnrollmentDao().getById(id);
+//    }
+
+    //given student
+    public LiveData<List<SavnacEnrollment>> getEnrollmentsForStudent(int studentId) {
+        return db.savnacEnrollmentDao().getEnrollmentsForStudent(studentId);
     }
 
-    //courseId column
+    public void deleteEnrollment(SavnacEnrollment enrollment) {
+        writeExecutor.execute(() ->
+                db.savnacEnrollmentDao().delete(enrollment)
+        );
+    }
 
     //ASSIGNMENTS************
     //all assignments in system
