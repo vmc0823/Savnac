@@ -3,7 +3,9 @@ package com.silisurfers.savnac;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
     // Fields
     private RecyclerView listOfAssignmentDisplayRecyclerView;
     private Button createNewAssignmentButton;
+    private SavnacRepository repo;
     private int courseId;
 
     @Override
@@ -31,6 +34,9 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
 
         // Retrieve the number associated with "courseId." If no valid number exist, default to -1 which will serve as an "error flag"
         courseId = getIntent().getIntExtra("courseId", -1);
+
+        // for debugging purpose
+        Log.d("Checkpoint", "courseId passed: " + courseId);
 
         // associating the java field "listOfAssignmentDisplayRecyclerView" to the xml view id "list_of_assignment_display_recyclerView"
         // found in the "show_list_of_active_assignments.xml" file
@@ -42,12 +48,13 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
 
         // assigning what happens when the createNewAssignmentButton is clicked on.
         createNewAssignmentButton.setOnClickListener(v ->{
+
+            // for debugging purpose: to make sure this button being clicked is actually being registered
+            Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(ShowListOfActiveAssignmentsActivity.this, CreateAssignmentActivity.class);
             intent.putExtra(CreateAssignmentActivity.EXTRA_COURSE_ID, courseId);
             startActivity(intent);
         });
-
     }
-
-
 }

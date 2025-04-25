@@ -2,6 +2,7 @@ package com.silisurfers.savnac;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,7 +32,13 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
         //blocking students from editing
         if(currentUser == null
-            || !"teacher".equals(currentUser.getRole())) {
+            || !"teacher".equalsIgnoreCase(currentUser.getRole().trim())) {
+
+            // added by Tom (4/25/2025)
+            // for debugging purpose. To check if user is null or what kind of user. Check Logcat and enter "Checkpoint"
+            Log.d("Checkpoint", "If this message shows up then that means User is null or not a teacher. User is: " + currentUser);
+            Log.d("Checkpoint", "If User shows up then User role is: " + currentUser.getRole());
+
             finish();
             return;
         }
@@ -45,6 +52,9 @@ public class CreateAssignmentActivity extends AppCompatActivity {
 
         // this means: "hey courseId shouldn't be negative so something is clearly wrong. Instead of crashing the app, just close the screen and go back"
         if(courseId < 0) {
+
+            Log.d("checkpoint", "If this message shows up, then it means courseId is < 0");
+
             finish();
             return;
         }
