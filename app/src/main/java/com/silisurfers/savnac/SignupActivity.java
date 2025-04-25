@@ -20,8 +20,6 @@ import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.databinding.ActivitySignupBinding;
 
-import java.util.Objects;
-
 public class SignupActivity extends AppCompatActivity {
     // Private data -------------------------------------------------------------------------------
     private ActivitySignupBinding binding;
@@ -53,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void setupUser() {
-        String username = binding.usernameSignupEditText.getText().toString();
+        String username = binding.emailSignupEditText.getText().toString();
         String password = binding.passwordSignupEditText.getText().toString();
         String role;
 
@@ -84,15 +82,11 @@ public class SignupActivity extends AppCompatActivity {
                 SavnacUser newUser = new SavnacUser(username, password, role);
                 repository.insertUser(newUser);
 
-                // Inform user they signed up before taking them to the login page.
-                Toast.makeText(this, String.format("Signed up as %s", username), Toast.LENGTH_SHORT).show();
+                // TODO: Should probably add login code but will do that once repo is fixed
 
-                // Switch over to login page after signing the user up.
-                Intent intent = new Intent(this, LoginActivity.class);
+                // Load course homepage after signing the user up then logging the user in.
+                Intent intent = new Intent(this, CoursesActivity.class);
                 startActivity(intent);
-
-                // Remove this observer since an account was created.
-                userObserver.removeObservers(this);
             }
         });
     }
