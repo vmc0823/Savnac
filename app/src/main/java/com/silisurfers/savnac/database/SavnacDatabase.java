@@ -23,7 +23,7 @@ import com.silisurfers.savnac.database.typeConverters.DateConverter;
         SavnacAssignment.class,
         SavnacEnrollment.class,
         SavnacUser.class},
-        version = 2,
+        version = 3,
         exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class SavnacDatabase extends RoomDatabase {

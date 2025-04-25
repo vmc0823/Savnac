@@ -2,8 +2,12 @@ package com.silisurfers.savnac.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+
+import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacEnrollment;
 import java.util.List;
 
@@ -25,6 +29,11 @@ public interface SavnacEnrollmentDao {
     void insert(SavnacEnrollment enrollment);   // table), take that object and add it to the enrollmentOptions table. (see doc note below
                                                 // "Constructor" on SavnacEnrollment.java for greater detail).
 
+    @Update
+    void update(SavnacEnrollment enrollment);
+
+    @Delete
+    void delete(SavnacEnrollment enrollment);
     // [Explanation of the @Query annotation]===============================================================================================================
     // @Query is an instruction for Room.
     // This instruction tells Room to select all rows from the enrollmentOptions table.
@@ -46,4 +55,14 @@ public interface SavnacEnrollmentDao {
 
     @Query("SELECT * FROM enrollments WHERE student_id = :studentId")
     LiveData<List<SavnacEnrollment>> getEnrollmentsByStudent(int studentId);
+
+    @Query("SELECT * FROM enrollments WHERE student_id = :studentId")
+    LiveData<List<SavnacEnrollment>> getEnrollmentsForStudent(int studentId);
+
+    @Query(
+            "SELECT c.* FROM courses AS c " +
+                    "JOIN enrollments AS e ON c.id = e.course_id " +
+                    "WHERE e.student_id = :studentId"
+    )
+    LiveData<List<SavnacCourse>> getCoursesForStudent(int studentId);
 }

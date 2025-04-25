@@ -1,7 +1,7 @@
 package com.silisurfers.savnac.database.entities;
 
-import static androidx.room.ForeignKey.CASCADE;
 
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -17,7 +17,7 @@ import androidx.room.PrimaryKey;
                @ForeignKey(
                        entity = SavnacUser.class,
                        parentColumns = "id", childColumns = "teacher_id",
-                       onDelete = CASCADE),
+                       onDelete = ForeignKey.SET_NULL),
 
        },
        indices = {
@@ -33,7 +33,8 @@ public class SavnacCourse {
     private String courseName;
 
     @ColumnInfo(name = "teacher_id")
-    private int teacherId;
+    @Nullable
+    private Integer teacherId;
 
 
     public SavnacCourse(){
@@ -61,14 +62,13 @@ public class SavnacCourse {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
-
     }
 
-    public int getTeacherId() {
+    public Integer getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(int teacherId) {
+    public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
     }
 }
