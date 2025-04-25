@@ -8,10 +8,16 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.silisurfers.savnac.database.SavnacRepository;
+import com.silisurfers.savnac.database.entities.SavnacAssignment;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
+import com.silisurfers.savnac.viewHolder.ListOfAvailableAssignmentsAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * Author: Wootark (Tom) Kim
@@ -27,9 +33,22 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
     private SavnacRepository repo;
     private int courseId;
 
+
+    private List<SavnacAssignment> assignmentList = new ArrayList<>();
+    private ListOfAvailableAssignmentsAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        repo = SavnacRepository.getInstance(getApplicationContext());
+        listOfAssignmentDisplayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, null);
+        listOfAssignmentDisplayRecyclerView.setAdapter(adapter);
+
+
+
         setContentView(R.layout.show_list_of_active_assignments);
 
         // Retrieve the number associated with "courseId." If no valid number exist, default to -1 which will serve as an "error flag"

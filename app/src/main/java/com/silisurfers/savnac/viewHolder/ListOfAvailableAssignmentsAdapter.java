@@ -3,6 +3,8 @@ package com.silisurfers.savnac.viewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,13 +33,13 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
     // [Serving as an internal ViewHolder class (instead of creating a separate file)]
     // =============================================================================================================================================
     public static class AssignmentViewHolder extends RecyclerView.ViewHolder{
-        TextView assignmentName;
-        Textview maxPoints;
+        Button assignmentNameButton;
+        TextView assignmentPoints;
 
         public AssignmentViewHolder(View itemView){
             super(itemView);
-            assignmentName = itemView.findViewById(R.id.assignment_name_text_view);
-            maxPoints = itemView.findViewById(R.id.points_text_view);
+            assignmentNameButton = itemView.findViewById(R.id.assignment_name);
+            assignmentPoints = itemView.findViewById(R.id.assignment_points);
         }
     }
     // =============================================================================================================================================
@@ -45,12 +47,19 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
     @NonNull
     @Override
     public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_assignment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.assignment_grade_item, parent, false);
         return new AssignmentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(AssignmentViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position){
+    SavnacAssignment assignment = assignmentList.get(position);
+    holder.assignmentNameButton.setText(assignment.getAssignmentName());
+    holder.assignmentPoints.setText(String.valueOf(assignment.getMaxPoints()));
+    }
 
+    @Override
+    public int getItemCount(){
+        return assignmentList.size();
     }
 }
