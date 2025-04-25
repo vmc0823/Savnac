@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class CoursesActivity extends AppCompatActivity {
     ///  this is the container that holds all the links. I picked recycler view since it is a dynamic list and may need to scroll
@@ -33,6 +35,7 @@ public class CoursesActivity extends AppCompatActivity {
     private SavnacUser currentUser;
     private Button createNewCourseButton;
     private Button joinCourseButton;
+    private Button logoutButton; // added by Brandon (25 April 2025)
 
 
 
@@ -51,6 +54,8 @@ public class CoursesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.courses_recycler_view);
         createNewCourseButton = findViewById(R.id.create_a_course_button);
         joinCourseButton = findViewById(R.id.join_a_course_button);
+        // added by Brandon (25 April 2025)
+        logoutButton = findViewById(R.id.logoutButton);
 
         ///  just some dummy data for now
 //        courses = new ArrayList<>();
@@ -75,6 +80,18 @@ public class CoursesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, CreateCourseActivity.class)));
         joinCourseButton.setOnClickListener(v ->
                 startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
+
+        // added by Brandon (25 April 2025)
+        logoutButton.setOnClickListener(v -> {
+            // Inform user they have logged out.
+            Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
+
+            // Set the current user to null as no user is currently signed in.
+            repo.setCurrentUser(null);
+
+            // Send user back to the LoginActivity.
+            startActivity(new Intent(this, LoginActivity.class));
+        });
 
         //LiveData sync
         repo = SavnacRepository.getInstance(getApplicationContext());
