@@ -20,12 +20,12 @@
         app:titleCentered="true" />
 
     <Button
-        android:id="@+id/logoutButton"
+        android:id="@+id/account_button"
         android:layout_width="117dp"
         android:layout_height="wrap_content"
         android:paddingTop="18dp"
         android:paddingBottom="18dp"
-        android:text="logout"
+        android:text="Account"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
