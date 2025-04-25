@@ -16,11 +16,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
-import com.silisurfers.savnac.database.SavnacDatabase;
 import com.silisurfers.savnac.database.SavnacRepository;
-import com.silisurfers.savnac.database.SavnacUserDao;
 import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.databinding.ActivityLoginBinding;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     // Private data -------------------------------------------------------------------------------
@@ -54,18 +54,28 @@ public class LoginActivity extends AppCompatActivity {
 
     private void verifyUser() {
         String username = binding.emailLoginEditText.getText().toString();
+        String password = binding.passwordLoginEditText.getText().toString();
 
         if (username.isEmpty()) {
             Toast.makeText(this, "Username may not be blank.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // TODO: Implement getUserByUserName method in repository
+        if (password.isEmpty()) {
+            Toast.makeText(this, "Password may not be blank.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         LiveData<SavnacUser> userObserver = repository.getUserByUsername(username);
         userObserver.observe(this, user -> {
             if (user != null) {
-                String password = binding.passwordLoginEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
+                    // Set current user to the matched user
+                    repository.setCurrentUser(userObserver);
+
+                    // Inform user they have logged in. This feature doubles as a debugging tool for checking that the setCurrentUser call was successful.
+                    Toast.makeText(this, String.format("Logged in as %s", Objects.requireNonNull(repository.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
+
                     // Load course homepage if username and password match
                     Intent intent = new Intent(this, CoursesActivity.class);
                     startActivity(intent);
