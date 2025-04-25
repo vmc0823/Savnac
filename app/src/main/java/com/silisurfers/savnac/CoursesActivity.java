@@ -1,6 +1,7 @@
 package com.silisurfers.savnac;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -160,5 +161,10 @@ public class CoursesActivity extends AppCompatActivity {
 
         // Send user back to the LoginActivity.
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent coursesIntentFactory(Context context) {
+        return new Intent(context, CoursesActivity.class);
     }
 }
