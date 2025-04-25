@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(this, String.format("Logged in as %s", Objects.requireNonNull(repository.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
 
                     // Load course homepage if username and password match
-                    Intent intent = new Intent(this, CoursesActivity.class);
+                    Intent intent = CoursesActivity.coursesIntentFactory(getApplicationContext());
                     startActivity(intent);
                 } else {
                     Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
