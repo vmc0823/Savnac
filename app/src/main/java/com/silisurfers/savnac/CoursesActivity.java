@@ -1,5 +1,7 @@
 package com.silisurfers.savnac;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -82,16 +84,7 @@ public class CoursesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
 
         // added by Brandon (25 April 2025)
-        logoutButton.setOnClickListener(v -> {
-            // Inform user they have logged out.
-            Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
-
-            // Set the current user to null as no user is currently signed in.
-            repo.setCurrentUser(null);
-
-            // Send user back to the LoginActivity.
-            startActivity(new Intent(this, LoginActivity.class));
-        });
+        logoutButton.setOnClickListener(v -> showLogoutDialog());
 
         //LiveData sync
         repo = SavnacRepository.getInstance(getApplicationContext());
@@ -134,5 +127,41 @@ public class CoursesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    private void showLogoutDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(CoursesActivity.this);
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        alertBuilder.setMessage("Would you like to log out of Savnac?");
+
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertBuilder.create().show();
+    }
+
+    // added by Brandon (25 April 2025)
+    private void logout() {
+        // Inform user they have logged out.
+        Toast.makeText(this, String.format("%s has been logged out.", Objects.requireNonNull(repo.getCurrentUser().getValue()).getUsername()), Toast.LENGTH_SHORT).show();
+
+        // Set the current user to null as no user is currently signed in.
+        repo.setCurrentUser(null);
+
+        // Send user back to the LoginActivity.
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }
