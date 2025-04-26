@@ -187,6 +187,11 @@ public class SavnacRepository {
         return db.savnacAssignmentDao().getAssignmentsByCourse(courseId);
     }
 
+    // added by Tom (26 April 2025, 1:19 am)
+    public LiveData<List<SavnacUser>> getStudentsInCourse(int courseId) {
+        return db.savnacEnrollmentDao().getStudentsInCourse(courseId);
+    }
+
     //GRADES*********
     //all grades entries, most recent 1st
     public LiveData<List<SavnacGradeEntry>> getAllGradeEntries() {
