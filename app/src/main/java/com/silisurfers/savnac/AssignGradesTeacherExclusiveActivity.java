@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.silisurfers.savnac.database.SavnacRepository;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.AssignGradesTeacherExclusiveActivityAdapter;
 
 public class AssignGradesTeacherExclusiveActivity extends AppCompatActivity {
@@ -25,6 +26,14 @@ public class AssignGradesTeacherExclusiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assign_grades_teacher_exclusive_page);
 
+        // for debugging purpose
+        SavnacUser user = SavnacRepository.getInstance(getApplicationContext()).getCurrentUser().getValue();
+        if (user != null) {
+            Log.d("Checkpoint", "Arrived in AssignGradesTeacherExclusiveActivity.java, user role is: " + user.getRole());
+        } else {
+            Log.d("Checkpoint", "User is NULL in AssignGradesTeacherExclusiveActivity.java.");
+        }
+
         // getting data from previous activity
         courseId = getIntent().getIntExtra("courseId", -1);
         assignmentId = getIntent().getIntExtra("assignmentId", -1);
@@ -38,8 +47,14 @@ public class AssignGradesTeacherExclusiveActivity extends AppCompatActivity {
         studentListWithGradeInputRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         repository.getStudentsInCourse(courseId).observe(this, students -> {
-            adapter = new AssignGradesTeacherExclusiveActivityAdapter(students, assignmentId);
-            studentListWithGradeInputRecyclerView.setAdapter(adapter);
+
+            if (students != null && !students.isEmpty()) {
+                adapter = new AssignGradesTeacherExclusiveActivityAdapter(students, assignmentId, this);
+                studentListWithGradeInputRecyclerView.setAdapter(adapter);
+                Log.d("Checkpoint", "Students are found for course ID: " + courseId);
+            } else {
+                Log.d("Checkpoint", "No students found for course ID: " + courseId);
+            }
         });
     }
 

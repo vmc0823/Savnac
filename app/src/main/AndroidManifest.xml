@@ -79,6 +79,8 @@
         <activity android:name=".ShowListOfActiveAssignmentsActivity"
             android:exported="true"/>
 
+        <activity android:name=".AssignGradesTeacherExclusiveActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

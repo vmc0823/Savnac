@@ -48,9 +48,9 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
         // for debugging purpose
         SavnacUser user = SavnacRepository.getInstance(getApplicationContext()).getCurrentUser().getValue();
         if (user != null) {
-            Log.d("Checkpoint", "Arrived in AssignmentsActivity, user role is: " + user.getRole());
+            Log.d("Checkpoint", "Arrived in ShowListOfActiveAssignmentsActivity.java, user role is: " + user.getRole());
         } else {
-            Log.d("Checkpoint", "User is NULL in AssignmentsActivity.");
+            Log.d("Checkpoint", "User is NULL in ShowListOfActiveAssignmentsActivity.java.");
         }
 
         //for debugging purpose
@@ -71,7 +71,20 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
         repo = SavnacRepository.getInstance(getApplicationContext());
 
         // setup recyclerview and adapter
-        adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, null);
+        adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, assignment ->{
+
+            // for debugging purpose:
+            Log.d("Checkpoint", "Clicked on assignment with ID: " + assignment.getId());
+
+            Intent intent = AssignGradesTeacherExclusiveActivity.assignGradesIntentFactory(
+                    ShowListOfActiveAssignmentsActivity.this,
+                    courseId,
+                    assignment.getId()
+            );
+            startActivity(intent);
+        });
+
+
         listOfAssignmentDisplayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         listOfAssignmentDisplayRecyclerView.setAdapter(adapter);
 

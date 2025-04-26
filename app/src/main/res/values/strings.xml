@@ -24,6 +24,8 @@
     <string name="new_click_here">New? Click here</string>
     <string name="login_page">Login Page</string>
     <string name="username">Username</string>
+    <string name="name_of_student">Name of Student</string>
+    <string name="grade">Grade</string>
 
     <!-- Add more strings below -->
 </resources>

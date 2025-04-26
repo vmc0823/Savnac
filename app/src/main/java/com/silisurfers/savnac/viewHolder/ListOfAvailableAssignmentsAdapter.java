@@ -21,11 +21,16 @@ import java.util.List;
  */
 public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<ListOfAvailableAssignmentsAdapter.AssignmentViewHolder> {
 
+    public interface OnAssignmentClickListener {
+        void onAssignmentClick(SavnacAssignment assignment);
+    }
+
     private List<SavnacAssignment> assignmentList;
 
-    private CoursesActivityRecyclerAdapter.OnCourseClickListener listener;
+    //private CoursesActivityRecyclerAdapter.OnCourseClickListener listener;
+    private OnAssignmentClickListener listener;
 
-    public ListOfAvailableAssignmentsAdapter(List<SavnacAssignment> assignmentList, CoursesActivityRecyclerAdapter.OnCourseClickListener listener){
+    public ListOfAvailableAssignmentsAdapter(List<SavnacAssignment> assignmentList, OnAssignmentClickListener listener){
         this.assignmentList = assignmentList;
         this.listener = listener;
     }
@@ -67,6 +72,12 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
         // max point value to show.
         holder.gradeTextView.setVisibility(View.GONE);
         holder.slashTextView.setVisibility(View.GONE);
+
+        holder.assignmentNameButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAssignmentClick(assignment);
+            }
+        });
     }
 
     @Override
