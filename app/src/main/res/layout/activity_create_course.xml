@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/OtterBlue">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/courses_activity_toolbar"
@@ -26,6 +27,9 @@
         android:layout_height="50dp"
         android:layout_marginTop="80dp"
         android:hint="@string/enter_course_name"
+        android:textColor="@color/white"
+        android:textColorHint="@color/ValleyGreen"
+        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +40,9 @@
         android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:hint="@string/enter_student_name"
+        android:textColor="@color/white"
+        android:textColorHint="@color/ValleyGreen"
+        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCourseName" />
