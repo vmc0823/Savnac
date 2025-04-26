@@ -86,10 +86,14 @@ public class CoursesActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //button navigation
-        createNewCourseButton.setOnClickListener(v ->
-                startActivity(new Intent(this, CreateCourseActivity.class)));
-        joinCourseButton.setOnClickListener(v ->
-                startActivity(new Intent(this, joinOrLeaveCoursesTeacherPerspectiveActivity.class)));
+        createNewCourseButton.setOnClickListener(v -> {
+                    Intent intent = CreateCourseActivity.createCourseIntentFactory(getApplicationContext());
+                    startActivity(intent);
+                });
+        joinCourseButton.setOnClickListener(v -> {
+                    Intent intent = joinOrLeaveCoursesTeacherPerspectiveActivity.joinOrLeaveCoursesTeacherIntentFactory(getApplicationContext());
+                    startActivity(intent);
+                });
 
         // added by Brandon (25 April 2025)
         accountButton.setOnClickListener(v -> showAccountDialog());

@@ -85,7 +85,7 @@ public class GradesActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = findViewById(R.id.grades_activity_toolbar);
         toolbar.setNavigationOnClickListener((v) -> {
-            Intent intent  = new Intent(this, CoursesActivity.class);
+            Intent intent = CoursesActivity.coursesIntentFactory(getApplicationContext());
             startActivity(intent);
         });
 
