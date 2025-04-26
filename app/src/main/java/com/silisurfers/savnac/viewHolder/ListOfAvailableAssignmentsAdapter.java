@@ -42,7 +42,7 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
             assignmentPoints = itemView.findViewById(R.id.assignment_points);
         }
     }
-    // =============================================================================================================================================
+    // ============================================================================================================================================
 
     @NonNull
     @Override
