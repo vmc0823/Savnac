@@ -56,10 +56,6 @@ public class CoursesActivity extends AppCompatActivity {
         Button accountButton = findViewById(R.id.account_button);
 
         ///  just some dummy data for now
-//        courses = new ArrayList<>();
-//        courses.add(new SavnacCourse("CST 300", 1));
-//        courses.add(new SavnacCourse("CST 338", 1));
-//        courses.add(new SavnacCourse("CST 363", 1));
 
 //        adapter = new CoursesActivityRecyclerAdapter(courses);
 
@@ -73,13 +69,20 @@ public class CoursesActivity extends AppCompatActivity {
             SavnacUser user = repo.getCurrentUser().getValue();
             if (user != null) {
                 Log.d("Checkpoint", "If User shows up then User role is: " + user.getRole());
+                if(user.getRole().equalsIgnoreCase("Teacher")){
+                    Intent intent = ShowListOfActiveAssignmentsActivity.showListOfActiveAssignmentsIntentFactory(getApplicationContext());
+                    intent.putExtra("courseId", course.getId());
+                    startActivity(intent);
+                } else {
+                    Intent intent = GradesActivity.gradesIntentFactory(getApplicationContext());
+                    intent.putExtra("courseId", course.getId());
+                    startActivity(intent);
+                }
             } else {
                 Log.d("Checkpoint", "User is NULL before navigating to assignments activity.");
+                Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                startActivity(intent);
             }
-
-            Intent intent = ShowListOfActiveAssignmentsActivity.showListOfActiveAssignmentsIntentFactory(getApplicationContext());
-            intent.putExtra("courseId", course.getId());
-            startActivity(intent);
         });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -118,7 +121,7 @@ public class CoursesActivity extends AppCompatActivity {
                             .observe(this, coursesList -> adapter.updateData(coursesList));
                 } else {
                     // Students see all courses
-                    repo.getAllCourses()
+                    repo.getCoursesForStudent(user.getId())
                             .observe(this, coursesList -> adapter.updateData(coursesList));
 
                     //this option makes it so join a course button disappears for students

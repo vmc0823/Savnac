@@ -102,6 +102,8 @@ public class SavnacRepository {
         return db.savnacCourseDao().getAllCourses();
     }
 
+
+
     //courses taught by certain teacher
     public LiveData<List<SavnacCourse>> getCourseByTeacher(int teacherId) {
         return db.savnacCourseDao().getCoursesByTeacher(teacherId);

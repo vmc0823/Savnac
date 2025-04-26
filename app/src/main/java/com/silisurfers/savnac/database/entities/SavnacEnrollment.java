@@ -84,4 +84,6 @@ public class SavnacEnrollment {
     public void setStudentId(int studentId) {
         this.studentId = studentId;
     }
+
+
 }

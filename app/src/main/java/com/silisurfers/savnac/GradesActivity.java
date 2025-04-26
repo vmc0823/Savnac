@@ -50,26 +50,15 @@ public class GradesActivity extends AppCompatActivity {
         try{
             repo = SavnacRepository.getInstance(getApplicationContext());
             recyclerView = findViewById(R.id.grades_recycler_view);
+            SavnacUser user = repo.getCurrentUser().getValue();
+            int courseId = getIntent().getIntExtra("courseId", 0);
+            if(user != null && courseId != 0){
 
-            SavnacUser dummyUser =  repo.insertAndReturnUser(new SavnacUser(UUID.randomUUID().toString(), "dummyPassword", "student")).get();
-            SavnacUser dummyTeacher = repo.insertAndReturnUser(new SavnacUser(UUID.randomUUID().toString(), "dummyPassword", "teacher")).get();
-            SavnacCourse dummyCourse = repo.insertAndReturnCourse(new SavnacCourse("dummyCourse", dummyTeacher.getId())).get();
-            SavnacAssignment dummyAssignment1 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment1", dummyCourse.getId(), 20)).get();
-            SavnacAssignment dummyAssignment2 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment2", dummyCourse.getId(), 20)).get();
-            SavnacAssignment dummyAssignment3 = repo.insertAndReturnAssignment(new SavnacAssignment("dummyAssignment3", dummyCourse.getId(), 100)).get();
-
-            SavnacGradeEntry dummyAssignmentGrade1 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment1.getId(),20, LocalDateTime.now())).get();
-            SavnacGradeEntry dummyAssignmentGrade2 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment2.getId(),15, LocalDateTime.now())).get();
-
-            SavnacGradeEntry dummyAssignmentGrade3 = repo.insertAndReturnGradeEntry(new SavnacGradeEntry(dummyUser.getId(),dummyAssignment3.getId(),95, LocalDateTime.now())).get();
-
-
-
-            repo.getUserGradesByCourseId(dummyUser.getId(),dummyCourse.getId()).observe(this, grades -> {
-                System.out.println("NUMBER OF GRADES "+grades.size());
-                adapter.setItems(grades);
-                adapter.notifyDataSetChanged();
-            });
+                repo.getUserGradesByCourseId(user.getId(),courseId).observe(this, grades -> {
+                    adapter.setItems(grades);
+                    adapter.notifyDataSetChanged();
+                });
+            }
         }catch(Exception e){
 
            e.printStackTrace();
