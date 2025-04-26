@@ -25,9 +25,9 @@ public class AssignGradesTeacherExclusiveActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.assign_grades_teacher_exclusive_page);
-
+        repository = SavnacRepository.getInstance(getApplicationContext());
         // for debugging purpose
-        SavnacUser user = SavnacRepository.getInstance(getApplicationContext()).getCurrentUser().getValue();
+        SavnacUser user = repository.getCurrentUser().getValue();
         if (user != null) {
             Log.d("Checkpoint", "Arrived in AssignGradesTeacherExclusiveActivity.java, user role is: " + user.getRole());
         } else {
@@ -41,7 +41,7 @@ public class AssignGradesTeacherExclusiveActivity extends AppCompatActivity {
         // for debugging purpose:
         Log.d("Checkpoint", "Received courseId: " + courseId + "\nassignmentId: " + assignmentId);
 
-        repository = SavnacRepository.getInstance(getApplicationContext());
+
 
         studentListWithGradeInputRecyclerView = findViewById(R.id.student_list_with_grade_input_recyclerView);
         studentListWithGradeInputRecyclerView.setLayoutManager(new LinearLayoutManager(this));

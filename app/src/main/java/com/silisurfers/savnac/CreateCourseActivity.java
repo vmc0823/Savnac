@@ -79,28 +79,36 @@ public class CreateCourseActivity extends AppCompatActivity {
 
         //press enter to confirm course button
         buttonConfirmCourse.setOnClickListener(v -> {
-            String courseName = editTextCourseName.getText().toString().trim();
-            if (TextUtils.isEmpty(courseName) || admitted.isEmpty()) {
-                Toast.makeText(this, "Course name/students required", Toast.LENGTH_SHORT).show();
-                return;
+            try{
+                String courseName = editTextCourseName.getText().toString().trim();
+                if (TextUtils.isEmpty(courseName) || admitted.isEmpty()) {
+                    Toast.makeText(this, "Course name/students required", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                //insert course and get the newCourseId directly
+                SavnacCourse course = new SavnacCourse(courseName, currentUser.getId());
+
+                SavnacCourse newCourse = repo.insertAndReturnCourse(course).get(); //casted it so if multiple courses are added quickly,
+                // the last item in the list might not be the newly created course
+
+
+                //enroll students using newCourseId
+                for (String studentName : admitted) {
+
+                        SavnacUser studentToEnroll = repo.getUserByUsernameSync(studentName).get();
+                        if (studentToEnroll != null) {
+                            System.out.println("ENROLLING STUDENT "+ studentName + " INTO "+newCourse.getId());
+                            SavnacEnrollment enrollment = new SavnacEnrollment(studentToEnroll.getId(),  newCourse.getId());
+                            repo.insertEnrollment(enrollment);
+                        }
+
+
+                }
+                finish();
+            }catch(Exception e){
+                System.out.println("unable to enroll student");
             }
-
-            //insert course and get the newCourseId directly
-            SavnacCourse course = new SavnacCourse(courseName, currentUser.getId());
-            long newCourseId = repo.insertCourse(course); //casted it so if multiple courses are added quickly,
-            // the last item in the list might not be the newly created course
-
-
-            //enroll students using newCourseId
-            for (String studentName : admitted) {
-                repo.getUserByUsername(studentName).observe(this, student -> {
-                    if (student != null) {
-                        SavnacEnrollment enrollment = new SavnacEnrollment(student.getId(), (int) newCourseId);
-                        repo.insertEnrollment(enrollment);
-                    }
-                });
-            }
-            finish();
         });
         MaterialToolbar toolbar = findViewById(R.id.courses_activity_toolbar);
         toolbar.setNavigationOnClickListener((v) -> {

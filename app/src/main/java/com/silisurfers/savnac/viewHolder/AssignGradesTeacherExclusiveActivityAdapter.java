@@ -67,7 +67,7 @@ public class AssignGradesTeacherExclusiveActivityAdapter extends RecyclerView.Ad
                 if (!input.isEmpty()) {
                     try {
                         int grade = Integer.parseInt(input);
-                        SavnacGradeEntry entry = new SavnacGradeEntry(assignmentId, student.getId(), grade, LocalDateTime.now());
+                        SavnacGradeEntry entry = new SavnacGradeEntry(student.getId(),assignmentId , grade, LocalDateTime.now());
                         repository.insertGradeEntry(entry);
                     } catch (NumberFormatException e) {
                         Log.e("GradeInput", "Invalid grade input: " + input);
