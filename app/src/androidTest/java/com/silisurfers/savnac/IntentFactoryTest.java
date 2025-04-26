@@ -106,7 +106,7 @@ public class IntentFactoryTest {
 
     @Test
     public void testShowListOfActiveAssignmentsIntentFactory() {
-        // Set up a CreateAssignmentActivity intent factory and put an extra value
+        // Set up a ShowListOfActiveAssignments intent factory and put an extra value
         Intent intent = ShowListOfActiveAssignmentsActivity.showListOfActiveAssignmentsIntentFactory(getApplicationContext());
         intent.putExtra("extraTest", "extraValue");
 
