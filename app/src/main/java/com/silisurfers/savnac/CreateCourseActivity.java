@@ -104,7 +104,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         });
         MaterialToolbar toolbar = findViewById(R.id.courses_activity_toolbar);
         toolbar.setNavigationOnClickListener((v) -> {
-            Intent intent  = new Intent(this, CoursesActivity.class);
+            Intent intent = CoursesActivity.coursesIntentFactory(getApplicationContext());
             startActivity(intent);
         });
     }

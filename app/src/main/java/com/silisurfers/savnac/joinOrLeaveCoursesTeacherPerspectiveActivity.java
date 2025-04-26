@@ -50,7 +50,8 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
 
         MaterialToolbar toolbar = findViewById(R.id.courses_activity_toolbar);
         toolbar.setNavigationOnClickListener((v) -> {
-            startActivity(new Intent(this, CoursesActivity.class));
+            Intent intent = CoursesActivity.coursesIntentFactory(getApplicationContext());
+            startActivity(intent);
         });
 
         availableCoursesRecyclerView = findViewById(R.id.AvailableCourses);
