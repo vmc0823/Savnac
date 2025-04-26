@@ -77,7 +77,7 @@ public class CoursesActivity extends AppCompatActivity {
                 Log.d("Checkpoint", "User is NULL before navigating to assignments activity.");
             }
 
-            Intent intent = new Intent(this, ShowListOfActiveAssignmentsActivity.class);
+            Intent intent = ShowListOfActiveAssignmentsActivity.showListOfActiveAssignmentsIntentFactory(getApplicationContext());
             intent.putExtra("courseId", course.getId());
             startActivity(intent);
         });
