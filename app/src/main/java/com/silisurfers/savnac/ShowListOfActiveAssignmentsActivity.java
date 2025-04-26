@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.silisurfers.savnac.database.SavnacRepository;
 import com.silisurfers.savnac.database.entities.SavnacAssignment;
+import com.silisurfers.savnac.database.entities.SavnacUser;
 import com.silisurfers.savnac.viewHolder.CoursesActivityRecyclerAdapter;
 import com.silisurfers.savnac.viewHolder.ListOfAvailableAssignmentsAdapter;
 
@@ -42,26 +43,22 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
-        repo = SavnacRepository.getInstance(getApplicationContext());
-        listOfAssignmentDisplayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, null);
-        listOfAssignmentDisplayRecyclerView.setAdapter(adapter);
-
-//        repo.getAssignmentsForCourse(courseId).observe(this, assignments -> {
-//            assignmentList.clear();
-//            assignmentList.addAll(assignments);
-//            adapter.notifyDataSetChanged();
-//        });
-
         setContentView(R.layout.show_list_of_active_assignments);
 
+        // for debugging purpose
+        SavnacUser user = SavnacRepository.getInstance(getApplicationContext()).getCurrentUser().getValue();
+        if (user != null) {
+            Log.d("Checkpoint", "Arrived in AssignmentsActivity, user role is: " + user.getRole());
+        } else {
+            Log.d("Checkpoint", "User is NULL in AssignmentsActivity.");
+        }
+
+        //for debugging purpose
         // Retrieve the number associated with "courseId." If no valid number exist, default to -1 which will serve as an "error flag"
         courseId = getIntent().getIntExtra("courseId", -1);
-
-        // for debugging purpose
         Log.d("Checkpoint", "courseId passed: " + courseId);
 
+        // HINT: for future reference, remember to initialize these fields to the id before calling the layout manager
         // associating the java field "listOfAssignmentDisplayRecyclerView" to the xml view id "list_of_assignment_display_recyclerView"
         // found in the "show_list_of_active_assignments.xml" file
         listOfAssignmentDisplayRecyclerView = findViewById(R.id.list_of_assignment_display_recyclerView);
@@ -69,6 +66,14 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
         // associating the java field "createNewAssignmentButton" with the xml view id "create_new_assignment_button" found in the
         // "show_list_of_active_assignments.xml" file
         createNewAssignmentButton = findViewById(R.id.create_new_assignment_button);
+
+        // setup the repository
+        repo = SavnacRepository.getInstance(getApplicationContext());
+
+        // setup recyclerview and adapter
+        adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, null);
+        listOfAssignmentDisplayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        listOfAssignmentDisplayRecyclerView.setAdapter(adapter);
 
         // assigning what happens when the createNewAssignmentButton is clicked on.
         createNewAssignmentButton.setOnClickListener(v ->{
@@ -79,6 +84,17 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
             Intent intent = new Intent(ShowListOfActiveAssignmentsActivity.this, CreateAssignmentActivity.class);
             intent.putExtra(CreateAssignmentActivity.EXTRA_COURSE_ID, courseId);
             startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        repo.getAssignmentsByCourse(courseId).observe(this, assignments -> {
+            assignmentList.clear();
+            assignmentList.addAll(assignments);
+            adapter.notifyDataSetChanged();
         });
     }
 

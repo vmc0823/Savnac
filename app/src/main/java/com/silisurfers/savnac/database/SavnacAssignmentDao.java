@@ -36,4 +36,9 @@ public interface SavnacAssignmentDao {
 
     @Query("DELETE FROM assignments WHERE course_id = :courseId")
     void deleteByCourseId(int courseId);
+
+    // added by Tom (25 April 2025, 6:42 pm)
+    // This retrieves all assignments associated with a specific course
+    @Query("SELECT * FROM assignments WHERE course_id = :courseId")
+    LiveData<List<SavnacAssignment>> getAssignmentsByCourse(int courseId);
 }

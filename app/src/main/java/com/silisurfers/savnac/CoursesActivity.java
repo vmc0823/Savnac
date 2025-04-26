@@ -68,6 +68,15 @@ public class CoursesActivity extends AppCompatActivity {
         // This section allows it so that clicking on a course from a list of available course will take the user to the "ShowListOfActiveAssignmentsActivity"
         // as in "CoursesActivity" --> "ShowListOfActiveAssignmentsActivity"
         adapter = new CoursesActivityRecyclerAdapter(new ArrayList<>(), course -> {
+
+            // done for debug purposes
+            SavnacUser user = repo.getCurrentUser().getValue();
+            if (user != null) {
+                Log.d("Checkpoint", "If User shows up then User role is: " + user.getRole());
+            } else {
+                Log.d("Checkpoint", "User is NULL before navigating to assignments activity.");
+            }
+
             Intent intent = new Intent(this, ShowListOfActiveAssignmentsActivity.class);
             intent.putExtra("courseId", course.getId());
             startActivity(intent);
