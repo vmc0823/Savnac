@@ -58,15 +58,15 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
 
     @Override
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position){
-    SavnacAssignment assignment = assignmentList.get(position);
-    holder.assignmentNameButton.setText(assignment.getAssignmentName());
-    holder.assignmentPoints.setText(String.valueOf(assignment.getPoints()));
+        SavnacAssignment assignment = assignmentList.get(position);
+        holder.assignmentNameButton.setText(assignment.getAssignmentName());
+        holder.assignmentPoints.setText(String.valueOf(assignment.getPoints()));
 
-    // these two will hide the "0" and the "/" from the "list_of_assignment_display_recyclerView" within the
-    // "show_list_of_active_assignments.xml" since they do not matter. In this recyclerView, we only want the
-    // max point value to show.
-    holder.gradeTextView.setVisibility(View.GONE);
-    holder.slashTextView.setVisibility(View.GONE);
+        // these two will hide the "0" and the "/" from the "list_of_assignment_display_recyclerView" within the
+        // "show_list_of_active_assignments.xml" since they do not matter. In this recyclerView, we only want the
+        // max point value to show.
+        holder.gradeTextView.setVisibility(View.GONE);
+        holder.slashTextView.setVisibility(View.GONE);
     }
 
     @Override

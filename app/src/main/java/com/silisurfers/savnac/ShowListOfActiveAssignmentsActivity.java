@@ -81,7 +81,7 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
             // for debugging purpose: to make sure this button being clicked is actually being registered
             Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(ShowListOfActiveAssignmentsActivity.this, CreateAssignmentActivity.class);
+            Intent intent = CreateAssignmentActivity.createAssignmentIntentFactory(getApplicationContext());
             intent.putExtra(CreateAssignmentActivity.EXTRA_COURSE_ID, courseId);
             startActivity(intent);
         });

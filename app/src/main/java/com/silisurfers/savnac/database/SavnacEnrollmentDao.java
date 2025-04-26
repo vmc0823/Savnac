@@ -5,12 +5,11 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacEnrollment;
-import com.silisurfers.savnac.database.entities.SavnacUser;
-
 import java.util.List;
 
 /***
@@ -49,12 +48,15 @@ public interface SavnacEnrollmentDao {
                                                                 // 1. Let's users observe the list of all rows/options (in this case - all course options).
                                                                 // 2. automatically updates the UI when the data changes.
 
-    @Query("SELECT * FROM enrollments WHERE id = :id") //added by vw, this query matches repo class (see repo class)
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM enrollments WHERE id = :id")
     LiveData<SavnacEnrollment> getById(int id);
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM enrollments WHERE course_id = :courseId")
     LiveData<List<SavnacEnrollment>> getEnrollmentsByCourse(int courseId);
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM enrollments WHERE student_id = :studentId")
     LiveData<List<SavnacEnrollment>> getEnrollmentsByStudent(int studentId);
 
@@ -68,8 +70,10 @@ public interface SavnacEnrollmentDao {
     )
     LiveData<List<SavnacCourse>> getCoursesForStudent(int studentId);
 
-    // added by Tom (26 April 2025, 1:09 am)
-    // This will join the "users" and "enrollments" tables to give all the students enrolled in a course
-    @Query("SELECT users.* FROM users " + "INNER JOIN enrollments ON users.id = enrollments.student_id " + "WHERE enrollments.course_id = :courseId")
-    LiveData<List<SavnacUser>> getStudentsInCourse(int courseId);
+    @Query("SELECT * FROM enrollments")
+    List<SavnacEnrollment> getAllEnrollmentOptionsSync(); //for testing
+
+    @Query("SELECT * FROM enrollments WHERE id = :id") //for testing
+    SavnacEnrollment getByIdSync(int id);
+
 }
