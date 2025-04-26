@@ -86,6 +86,12 @@ public class SavnacRepository {
         return db.savnacUserDao().getByUsername(username);
     }
 
+    public CompletableFuture<SavnacUser> getUserByUsernameSync(String username) {
+        return CompletableFuture.supplyAsync(()-> {
+            return db.savnacUserDao().getByUsernameSync(username);
+        }, writeExecutor);
+    }
+
     public void deleteUser(SavnacUser user) {
         writeExecutor.execute(() -> db.savnacUserDao().delete(user));
     }
