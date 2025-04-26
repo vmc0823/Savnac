@@ -47,7 +47,11 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
         adapter = new ListOfAvailableAssignmentsAdapter(assignmentList, null);
         listOfAssignmentDisplayRecyclerView.setAdapter(adapter);
 
-
+//        repo.getAssignmentsForCourse(courseId).observe(this, assignments -> {
+//            assignmentList.clear();
+//            assignmentList.addAll(assignments);
+//            adapter.notifyDataSetChanged();
+//        });
 
         setContentView(R.layout.show_list_of_active_assignments);
 

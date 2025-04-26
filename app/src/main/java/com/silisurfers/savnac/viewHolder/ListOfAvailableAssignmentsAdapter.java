@@ -55,7 +55,7 @@ public class ListOfAvailableAssignmentsAdapter extends RecyclerView.Adapter<List
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position){
     SavnacAssignment assignment = assignmentList.get(position);
     holder.assignmentNameButton.setText(assignment.getAssignmentName());
-    holder.assignmentPoints.setText(String.valueOf(assignment.getMaxPoints()));
+    holder.assignmentPoints.setText(String.valueOf(assignment.getPoints()));
     }
 
     @Override
