@@ -1,6 +1,7 @@
 package com.silisurfers.savnac;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -90,5 +91,8 @@ public class GradesActivity extends AppCompatActivity {
 
     }
 
-
+    // added by Brandon (25 April 2025)
+    static Intent gradesIntentFactory(Context context) {
+        return new Intent(context, GradesActivity.class);
+    }
 }

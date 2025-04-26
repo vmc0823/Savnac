@@ -1,5 +1,6 @@
 package com.silisurfers.savnac;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -162,5 +163,10 @@ public class joinOrLeaveCoursesTeacherPerspectiveActivity extends AppCompatActiv
             availableCoursesRecyclerView.setAdapter(availableCoursesAdapter);
             currentlyEnrolledCourseRecyclerView.setAdapter(currentlyEnrolledCourseAdapter);
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent joinOrLeaveCoursesTeacherIntentFactory(Context context) {
+        return new Intent(context, joinOrLeaveCoursesTeacherPerspectiveActivity.class);
     }
 }
