@@ -10,6 +10,8 @@ import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacCourse;
 import com.silisurfers.savnac.database.entities.SavnacEnrollment;
+import com.silisurfers.savnac.database.entities.SavnacUser;
+
 import java.util.List;
 
 /***
@@ -75,5 +77,10 @@ public interface SavnacEnrollmentDao {
 
     @Query("SELECT * FROM enrollments WHERE id = :id") //for testing
     SavnacEnrollment getByIdSync(int id);
+
+    // added by Tom (26 April 2025)
+    // this will join the "users" and "enrollments" tables to get all the students from a course
+    @Query("SELECT users.* FROM users " + "INNER JOIN enrollments ON users.id = enrollments.student_id " + "WHERE enrollments.course_id = :courseId")
+    LiveData<List<SavnacUser>> getStudentsInCourse(int courseId);
 
 }
