@@ -1,5 +1,7 @@
 package com.silisurfers.savnac;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -82,5 +84,10 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             repo.insertAssignment(assignment);
             finish();
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent createAssignmentIntentFactory(Context context) {
+        return new Intent(context, CreateAssignmentActivity.class);
     }
 }

@@ -88,7 +88,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(this, String.format("Signed up as %s", username), Toast.LENGTH_SHORT).show();
 
                 // Switch over to login page after signing the user up.
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
                 startActivity(intent);
 
                 // Remove this observer since an account was created.
