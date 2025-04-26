@@ -1,5 +1,6 @@
 package com.silisurfers.savnac;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -106,5 +107,10 @@ public class CreateCourseActivity extends AppCompatActivity {
             Intent intent  = new Intent(this, CoursesActivity.class);
             startActivity(intent);
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent createCourseIntentFactory(Context context) {
+        return new Intent(context, CreateCourseActivity.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.silisurfers.savnac;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,5 +80,10 @@ public class ShowListOfActiveAssignmentsActivity extends AppCompatActivity {
             intent.putExtra(CreateAssignmentActivity.EXTRA_COURSE_ID, courseId);
             startActivity(intent);
         });
+    }
+
+    // added by Brandon (25 April 2025)
+    static Intent showListOfActiveAssignmentsIntentFactory(Context context) {
+        return new Intent(context, ShowListOfActiveAssignmentsActivity.class);
     }
 }
