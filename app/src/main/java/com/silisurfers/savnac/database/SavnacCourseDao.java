@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
 import androidx.room.Update;
 
 import com.silisurfers.savnac.database.entities.SavnacCourse;
@@ -32,6 +33,7 @@ public interface SavnacCourseDao {
     @Query("DELETE FROM courses where id = :courseId") //delete
     void deleteById(int courseId);
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM courses WHERE id = :courseId") //read
     LiveData<SavnacCourse> getCourseById(int courseId);
 
