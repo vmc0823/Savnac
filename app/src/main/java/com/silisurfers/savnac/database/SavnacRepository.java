@@ -185,10 +185,6 @@ public class SavnacRepository {
         }, writeExecutor);
     }
 
-    public LiveData<List<SavnacAssignmentWithGrade>> getAllGradesWithAssignments() {
-        return db.savnacAssignmentWithGradeDao().getAllGradesWithAssignments();
-    } //CALL THIS IN GRADESACTIVITY
-
     // added by Tom (25 April 2025, 6:44 pm)
     // interacts/works with the SavnacAssignmentDao to request assignment list related with a specific course
     public LiveData<List<SavnacAssignment>> getAssignmentsByCourse(int courseId) {
